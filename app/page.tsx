@@ -46,7 +46,7 @@ const personalInfo = {
   intro:
     "I am a motivated and versatile individual, always eager to take on new challenges. With a passion for learning I am dedicated to delivering high-quality results. With a positive attitude and a growth mindset, I am ready to make a meaningful contribution and achieve great things.",
   email: "santosh07entrepreneur@gmail.com",
-  location: "Pune, Maharashtra",
+  location: "New Delhi",
   phone: "+91 9971652277",
   experience: "2.5 Years",
   projects: "10+ Projects",
@@ -1233,9 +1233,9 @@ export default function Portfolio() {
             
             {/* Additional mobile spacing */}
             <div className="mt-6 pt-6 border-t border-gray-800/50 text-center md:hidden">
-              <p className="text-xs text-gray-500">
+              {/* <p className="text-xs text-gray-500">
                 Built with ❤️ using React & Next.js
-              </p>
+              </p> */}
             </div>
           </div>
         </footer>
