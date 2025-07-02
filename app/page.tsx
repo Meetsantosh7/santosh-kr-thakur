@@ -15,6 +15,8 @@ import {
   Menu,
   X,
   ChevronDown,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -54,7 +56,7 @@ const personalInfo = {
   clients: "25+ Clients",
   socialLinks: [
     { name: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-    { name: "LinkedIn", url: "https://linkedin.com/in/santoshkumarthakur", icon: Linkedin },
+    { name: "LinkedIn", url: "https://linkedin.com/in/santoshkumarthakur1917", icon: Linkedin },
     { name: "Instagram", url: "#", icon: Instagram },
     { name: "Email", url: "mailto:santosh07entrepreneur@gmail.com", icon: Mail },
   ],
@@ -220,11 +222,11 @@ const skillsData = [
     skills: [
       { name: "React.js", level: 95, icon: "⚛️" },
       { name: "Next.js", level: 90, icon: "▲" },
-      { name: "JavaScript", level: 92, icon: "�" },
+      { name: "JavaScript", level: 92, icon: "🟨" },
       { name: "HTML5", level: 95, icon: "🌐" },
-      { name: "CSS3", level: 90, icon: "�" },
-      { name: "Tailwind CSS", level: 88, icon: "�" },
-      { name: "Bootstrap", level: 85, icon: "�️" },
+      { name: "CSS3", level: 90, icon: "🎨" },
+      { name: "Tailwind CSS", level: 88, icon: "💨" },
+      { name: "Bootstrap", level: 85, icon: "🅱️" },
     ],
   },
   {
@@ -232,7 +234,7 @@ const skillsData = [
     skills: [
       { name: "PHP", level: 92, icon: "🐘" },
       { name: "Laravel", level: 90, icon: "🔴" },
-      { name: "Node.js", level: 85, icon: "�" },
+      { name: "Node.js", level: 85, icon: "💚" },
       { name: "Express.js", level: 82, icon: "⚡" },
     ],
   },
@@ -250,7 +252,7 @@ const skillsData = [
       { name: "Git", level: 92, icon: "📝" },
       { name: "VS Code", level: 95, icon: "💙" },
       { name: "Figma", level: 80, icon: "🎨" },
-      { name: "Postman", level: 88, icon: "�" },
+      { name: "Postman", level: 88, icon: "📮" },
     ],
   },
 ]
@@ -292,15 +294,72 @@ const education = [
 
 const navigationItems = [
   { name: "Home", id: "home" },
-  { name: "Work", id: "projects" },
   { name: "About", id: "about" },
+  { name: "Skills", id: "skills" },
+  { name: "Work", id: "projects" },
   { name: "Experience", id: "experience" },
   { name: "Education", id: "education" },
-  { name: "Skills", id: "skills" },
   { name: "Contact", id: "contact" },
 ]
 
 function PortfolioContent() {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  
+  // SIH Images data
+  const sihImages = [
+    {
+      src: "/images/sih-1.jpeg",
+      title: "SIH UI/UX Design Mentor Award",
+      description: "Honored as UI/UX Design Mentor for exceptional guidance in user experience design and interface innovation at Smart India Hackathon"
+    },
+    {
+      src: "/images/sih-2.jpeg", 
+      title: "UI/UX Design Mentoring Session",
+      description: "Leading comprehensive UI/UX design sessions and guiding student teams through user-centered design methodologies"
+    },
+    {
+      src: "/images/sih-3.jpeg",
+      title: "SIH Design Thinking Workshop", 
+      description: "Conducting intensive workshops on UI/UX design principles, prototyping, and user research techniques"
+    },
+    {
+      src: "/images/sih-4.jpeg",
+      title: "SIH Design Team Collaboration",
+      description: "Working closely with participating teams to refine user interface concepts and enhance user experience strategies"
+    },
+    {
+      src: "/images/sih-5.jpg",
+      title: "SIH 2024 Grand Finale",
+      description: "Proud to serve as UI/UX Design Mentor at Smart India Hackathon 2024 Software Edition Grand Finale at Amity University"
+    },
+    {
+      src: "/images/sih-6.jpg",
+      title: "SIH Design Innovation Showcase",
+      description: "Celebrating innovative UI/UX design solutions and user interface excellence at Smart India Hackathon 2024"
+    }
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % sihImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + sihImages.length) % sihImages.length);
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentSlide(index);
+  };
+
+  // Auto-play functionality for carousel
+  useEffect(() => {
+    const autoPlayInterval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % sihImages.length);
+    }, 4000); // Change slide every 4 seconds
+
+    return () => clearInterval(autoPlayInterval);
+  }, [sihImages.length]);
+
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [formData, setFormData] = useState({
@@ -612,58 +671,338 @@ function PortfolioContent() {
                 </motion.p>
               </motion.div>
 
-              <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
-                <motion.div variants={fadeInUp}>
-                  <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-700/50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl">
-                    <p className="text-base sm:text-lg text-gray-300 leading-relaxed mb-6 sm:mb-8">{personalInfo.intro}</p>
-
-                    <div className="grid grid-cols-3 gap-4 sm:gap-6">
-                      <motion.div 
-                        className="text-center group"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <div className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent mb-2 group-hover:from-teal-300 group-hover:to-cyan-300 transition-all duration-300">
-                          {personalInfo.experience}
-                        </div>
-                        <div className="text-xs sm:text-sm text-gray-400 font-medium">Experience</div>
-                      </motion.div>
-                      <motion.div 
-                        className="text-center group"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <div className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent mb-2 group-hover:from-teal-300 group-hover:to-cyan-300 transition-all duration-300">
-                          {personalInfo.projects}
-                        </div>
-                        <div className="text-xs sm:text-sm text-gray-400 font-medium">Projects</div>
-                      </motion.div>
-                      <motion.div 
-                        className="text-center group"
-                        whileHover={{ scale: 1.05 }}
-                      >
-                        <div className="text-xl sm:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-teal-400 to-cyan-400 bg-clip-text text-transparent mb-2 group-hover:from-teal-300 group-hover:to-cyan-300 transition-all duration-300">
-                          {personalInfo.clients}
-                        </div>
-                        <div className="text-xs sm:text-sm text-gray-400 font-medium">Clients</div>
-                      </motion.div>
+              <div className="space-y-12">
+                {/* Profile Photo and Intro Text - Side by Side */}
+                <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
+                  <motion.div variants={fadeInUp}>
+                    <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-700/50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl">
+                      <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
+                        I am a motivated and versatile individual, always eager to take on new challenges. With a passion for learning I am dedicated to delivering high-quality results. With a positive attitude and a growth mindset, I am ready to make a meaningful contribution and achieve great things.
+                      </p>
                     </div>
-                  </div>
-                </motion.div>
+                  </motion.div>
 
-                <motion.div variants={fadeInUp} className="flex justify-center mt-8 lg:mt-0">
-                  <div className="relative group">
-                    <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl backdrop-blur-sm bg-gradient-to-br from-gray-900/50 to-gray-800/30 p-2">
-                      <div className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden">
-                        <img
-                          src="/images/profile.jpeg"
-                          alt="Santosh Kumar Thakur"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        />
+                  <motion.div variants={fadeInUp} className="flex justify-center mt-8 lg:mt-0">
+                    {/* Profile Photo */}
+                    <div className="relative group">
+                      <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl backdrop-blur-sm bg-gradient-to-br from-gray-900/50 to-gray-800/30 p-2">
+                        <div className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden">
+                          <img
+                            src="/images/profile.jpeg"
+                            alt="Santosh Kumar Thakur"
+                            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          />
+                        </div>
                       </div>
+                      <div className="absolute -top-4 sm:-top-6 -right-4 sm:-right-6 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-teal-500/30 to-cyan-500/30 rounded-full blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 rounded-full blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
                     </div>
-                    <div className="absolute -top-4 sm:-top-6 -right-4 sm:-right-6 w-24 sm:w-32 h-24 sm:h-32 bg-gradient-to-br from-teal-500/30 to-cyan-500/30 rounded-full blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
-                    <div className="absolute -bottom-4 sm:-bottom-6 -left-4 sm:-left-6 w-32 sm:w-40 h-32 sm:h-40 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 rounded-full blur-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+                  </motion.div>
+                </div>
+
+                {/* SIH Design Mentor Experience Carousel */}
+                <motion.div variants={fadeInUp} className="mt-12">
+                  <div className="text-center mb-6 sm:mb-8">
+                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent">
+                      Smart India Hackathon
+                    </h3>
+                    <p className="text-sm sm:text-base lg:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
+                      Proud to serve as a <span className="text-teal-300 font-semibold">UI/UX Design Mentor</span> at Smart India Hackathon, guiding teams to create exceptional user experiences and innovative interface solutions
+                    </p>
+                  </div>
+
+                  <div className="relative max-w-4xl mx-auto">
+                    <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 backdrop-blur-2xl border border-gray-600/30 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
+                      {/* Carousel Container */}
+                      <div className="relative">
+                        {/* Mobile aspect ratio 4:3, Desktop 16:9 */}
+                        <div className="aspect-[4/3] sm:aspect-[16/9] overflow-hidden bg-gray-800/50 relative">
+                          <motion.div 
+                            className="flex transition-transform duration-500 ease-in-out h-full cursor-grab active:cursor-grabbing"
+                            style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+                            drag="x"
+                            dragConstraints={{ left: 0, right: 0 }}
+                            dragElastic={0.2}
+                            onDragEnd={(event, info) => {
+                              const threshold = 50;
+                              if (info.offset.x > threshold) {
+                                prevSlide();
+                              } else if (info.offset.x < -threshold) {
+                                nextSlide();
+                              }
+                            }}
+                          >
+                            {/* Render all SIH Images */}
+                            {sihImages.map((image, index) => (
+                              <div key={index} className="w-full flex-shrink-0 relative h-full">
+                                <img
+                                  src={image.src}
+                                  alt={image.title}
+                                  className={`w-full h-full object-cover ${
+                                    image.src === "/images/sih-5.jpg" 
+                                      ? "object-contain object-center" 
+                                      : image.src === "/images/sih-6.jpg"
+                                      ? "object-contain object-center"
+                                      : "object-cover object-center"
+                                  }`}
+                                  onError={(e) => {
+                                    console.log(`Image ${image.src} failed to load`);
+                                    const target = e.target as HTMLImageElement;
+                                    target.src = "/images/placeholder.svg";
+                                    target.onerror = null;
+                                  }}
+                                  onLoad={() => {
+                                    console.log(`Image ${image.src} loaded successfully`);
+                                  }}
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+                                {/* Mobile-optimized text overlay */}
+                                <div className="absolute bottom-3 sm:bottom-6 left-3 sm:left-6 right-3 sm:right-6">
+                                  <h4 className="text-lg sm:text-xl lg:text-2xl font-bold text-white mb-1 sm:mb-2 line-clamp-2">
+                                    {image.title}
+                                  </h4>
+                                  <p className="text-gray-200 text-xs sm:text-sm lg:text-base line-clamp-2 sm:line-clamp-3">
+                                    {image.description}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </motion.div>
+                        </div>
+                        
+                        {/* Navigation Arrows - Responsive sizing */}
+                        <button
+                          onClick={prevSlide}
+                          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 hover:bg-black/80 rounded-full flex items-center justify-center transition-all duration-200 group backdrop-blur-sm border border-white/10 touch-manipulation"
+                          aria-label="Previous slide"
+                        >
+                          <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-110 transition-transform" />
+                        </button>
+                        
+                        <button
+                          onClick={nextSlide}
+                          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 hover:bg-black/80 rounded-full flex items-center justify-center transition-all duration-200 group backdrop-blur-sm border border-white/10 touch-manipulation"
+                          aria-label="Next slide"
+                        >
+                          <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-110 transition-transform" />
+                        </button>
+                        
+                        {/* Carousel Indicators - Mobile optimized */}
+                        <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1.5 sm:space-x-2">
+                          {sihImages.map((_, index) => (
+                            <button
+                              key={index}
+                              onClick={() => goToSlide(index)}
+                              className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-200 touch-manipulation ${
+                                currentSlide === index 
+                                  ? 'bg-teal-400 opacity-100 scale-110' 
+                                  : 'bg-gray-400 opacity-60 hover:opacity-80'
+                              }`}
+                              aria-label={`Go to slide ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* SIH Details */}
+                      <div className="p-4 sm:p-6 lg:p-8">
+                        <div className="grid sm:grid-cols-2 gap-6">
+                          <div className="space-y-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-sm">SIH</span>
+                              </div>
+                              <div>
+                                <h5 className="text-white font-semibold">Smart India Hackathon</h5>
+                                <p className="text-gray-400 text-sm">UI/UX Design Mentor</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 bg-gradient-to-r from-green-600 to-emerald-600 rounded-full flex items-center justify-center">
+                                <span className="text-white text-lg">�</span>
+                              </div>
+                              <div>
+                                <h5 className="text-white font-semibold">Design Focus</h5>
+                                <p className="text-gray-400 text-sm">UI/UX Design & User Experience</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="space-y-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full flex items-center justify-center">
+                                <span className="text-white text-lg">👥</span>
+                              </div>
+                              <div>
+                                <h5 className="text-white font-semibold">UI/UX Mentorship</h5>
+                                <p className="text-gray-400 text-sm">Guiding Design Innovation</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 bg-gradient-to-r from-orange-600 to-red-600 rounded-full flex items-center justify-center">
+                                <span className="text-white text-lg">🚀</span>
+                              </div>
+                              <div>
+                                <h5 className="text-white font-semibold">Impact</h5>
+                                <p className="text-gray-400 text-sm">Building User-Centric Solutions</p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* Quote */}
+                        <div className="mt-6 p-4 bg-gradient-to-r from-teal-500/10 via-emerald-500/5 to-cyan-500/10 border border-teal-400/20 rounded-2xl backdrop-blur-sm">
+                          <blockquote className="text-center">
+                            <p className="text-sm sm:text-base text-gray-200 font-medium leading-relaxed mb-3">
+                              "Empowering young designers to create intuitive user experiences and innovative interface solutions that can transform digital interaction in our nation."
+                            </p>
+                            <footer className="flex items-center justify-center space-x-2">
+                              <motion.div
+                                className="w-2 h-2 bg-teal-400 rounded-full"
+                                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                transition={{ duration: 2, repeat: Infinity }}
+                              />
+                              <span className="text-xs text-teal-300 font-semibold tracking-wide">
+                                SIH UI/UX DESIGN MENTOR
+                              </span>
+                              <motion.div
+                                className="w-2 h-2 bg-cyan-400 rounded-full"
+                                animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                transition={{ duration: 2, repeat: Infinity, delay: 1 }}
+                              />
+                            </footer>
+                          </blockquote>
+                        </div>
+                      </div>
+
+                      {/* Bottom Accent */}
+                      <div className="h-1 bg-gradient-to-r from-teal-500 via-emerald-500 to-cyan-500 opacity-60" />
+                    </div>
                   </div>
                 </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+
+         {/* Skills Section */}
+        <section id="skills" className="py-16 sm:py-24 lg:py-32 bg-gray-950/30">
+          <div className="container mx-auto px-4 sm:px-6">
+            <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
+              <motion.div variants={fadeInUp} className="text-center mb-12 sm:mb-16">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">Skills & Technologies</h2>
+                <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 mx-auto mb-6 sm:mb-8" />
+                <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4">
+                  Technologies and tools I've mastered over the years
+                </p>
+              </motion.div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
+                {skillsData.map((skillGroup, groupIndex) => (
+                  <motion.div key={skillGroup.category} variants={fadeInUp}>
+                    <Card className="bg-gray-900/50 border-gray-700 backdrop-blur-sm h-full">
+                      <CardHeader className="text-center p-4 sm:p-6">
+                        <CardTitle className="text-white text-base sm:text-lg mb-3 sm:mb-4">{skillGroup.category}</CardTitle>
+                      </CardHeader>
+                      <CardContent className="p-4 sm:p-6 pt-0">
+                        <div className="space-y-3 sm:space-y-4">
+                          {skillGroup.skills.map((skill, index) => (
+                            <div key={skill.name} className="space-y-2">
+                              <div className="flex justify-between items-center">
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-base sm:text-lg">{skill.icon}</span>
+                                  <span className="text-xs sm:text-sm font-medium text-gray-300">{skill.name}</span>
+                                </div>
+                                <span className="text-xs text-teal-400 font-semibold">{skill.level}%</span>
+                              </div>
+                              <div className="w-full bg-gray-700 rounded-full h-1.5 sm:h-2">
+                                <motion.div
+                                  className="bg-gradient-to-r from-teal-500 to-cyan-500 h-1.5 sm:h-2 rounded-full"
+                                  initial={{ width: 0 }}
+                                  whileInView={{ width: `${skill.level}%` }}
+                                  transition={{ duration: 1.5, delay: index * 0.1 }}
+                                  viewport={{ once: true }}
+                                />
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+          {/* Projects Section */}
+        <section id="projects" className="py-16 sm:py-24 lg:py-32">
+          <div className="container mx-auto px-4 sm:px-6">
+            <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
+              <motion.div variants={fadeInUp} className="text-center mb-12 sm:mb-16">
+                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">Featured Work</h2>
+                <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 mx-auto mb-6 sm:mb-8" />
+                <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4">
+                  Some of my best work that I'm proud to showcase
+                </p>
+              </motion.div>
+
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+                {projects.map((project, index) => (
+                  <motion.div key={project.id} variants={fadeInUp}>
+                    <Card className="bg-gradient-to-br from-gray-900/60 to-gray-800/40 border-gray-700/50 backdrop-blur-xl hover:bg-gradient-to-br hover:from-gray-900/80 hover:to-gray-800/60 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-teal-500/10 hover:border-teal-500/30 hover:scale-[1.02]">
+                      <CardHeader className="p-4 sm:p-6">
+                        <div className="flex justify-between items-start mb-3 sm:mb-4">
+                          <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
+                            {project.title}
+                          </CardTitle>
+                          <Badge
+                            className={`${
+                              project.status === "Completed"
+                                ? "bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-300 border-green-600/30"
+                                : project.status === "Live"
+                                  ? "bg-gradient-to-r from-teal-600/20 to-cyan-600/20 text-teal-300 border-teal-600/30"
+                                  : "bg-gradient-to-r from-yellow-600/20 to-orange-600/20 text-yellow-300 border-yellow-600/30"
+                            } backdrop-blur-sm text-xs whitespace-nowrap`}
+                          >
+                            {project.status}
+                          </Badge>
+                        </div>
+                        <CardDescription className="text-gray-400 leading-relaxed text-sm sm:text-base">
+                          {project.description}
+                        </CardDescription>
+                      </CardHeader>
+                      <CardContent className="p-4 sm:p-6 pt-0">
+                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                          {project.technologies.map((tech) => (
+                            <Badge
+                              key={tech}
+                              variant="outline"
+                              className="border-gray-600/50 text-gray-300 bg-gray-800/50 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 transition-all duration-300"
+                            >
+                              {tech}
+                            </Badge>
+                          ))}
+                        </div>
+                        <div className="flex flex-wrap gap-3 sm:gap-4">
+                          {project.links.map((link, idx) => (
+                            <Button
+                              key={idx}
+                              size="sm"
+                              variant="ghost"
+                              className="text-gray-400 hover:text-teal-400 p-0 h-auto group/btn text-xs sm:text-sm"
+                              onClick={() => window.open(link.url, "_blank")}
+                            >
+                              <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
+                              {link.type}
+                            </Button>
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
               </div>
             </motion.div>
           </div>
@@ -921,20 +1260,15 @@ function PortfolioContent() {
                           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" />
                         </motion.div>
                         
-                        {/* Date Badge */}
+                        {/* Date Badge - Desktop only */}
                         <motion.div
-                          className={`absolute ${
-                            // Mobile: right side of node
-                            'left-8 top-1/2 transform -translate-y-1/2 ' +
-                            // Desktop: below node, centered
-                            'sm:left-1/2 sm:top-12 sm:transform sm:-translate-x-1/2 sm:-translate-y-0'
-                          } bg-gradient-to-r from-teal-600/30 to-cyan-600/30 border border-teal-400/40 rounded-full px-4 py-2 backdrop-blur-sm whitespace-nowrap shadow-lg shadow-teal-500/20`}
+                          className="hidden sm:block absolute top-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-teal-600/30 to-cyan-600/30 border border-teal-400/40 rounded-full px-3 lg:px-4 py-1.5 lg:py-2 backdrop-blur-sm whitespace-nowrap shadow-lg shadow-teal-500/20 z-30"
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.2 + 0.3 }}
                           viewport={{ once: true }}
                         >
-                          <span className="text-xs sm:text-sm text-teal-200 font-semibold">
+                          <span className="text-sm text-teal-200 font-semibold">
                             {edu.year}
                           </span>
                         </motion.div>
@@ -947,7 +1281,7 @@ function PortfolioContent() {
                           'sm:w-5/12 ' + (index % 2 === 0 ? 'sm:pr-12' : 'sm:pl-12')
                         } ${
                           // Mobile layout - always left aligned with padding for timeline
-                          'pl-20 pr-4'
+                          'pl-16 sm:pl-20 pr-4'
                         }`}
                         initial={{ 
                           opacity: 0, 
@@ -967,31 +1301,46 @@ function PortfolioContent() {
                         }}
                         viewport={{ once: true }}
                       >
-                        <Card className="bg-gradient-to-br from-teal-950/40 via-gray-900/60 to-cyan-950/40 border border-teal-500/20 backdrop-blur-xl hover:bg-gradient-to-br hover:from-teal-900/60 hover:via-gray-800/80 hover:to-cyan-900/60 transition-all duration-500 group hover:shadow-2xl hover:shadow-teal-500/30 hover:border-teal-400/50 hover:scale-[1.03] relative overflow-hidden">
+                        <Card className="bg-gradient-to-br from-teal-950/40 via-gray-900/60 to-cyan-950/40 border border-teal-500/20 backdrop-blur-xl hover:bg-gradient-to-br hover:from-teal-900/60 hover:via-gray-800/80 hover:to-cyan-900/60 transition-all duration-500 group hover:shadow-2xl hover:shadow-teal-500/30 hover:border-teal-400/50 hover:scale-[1.02] sm:hover:scale-[1.03] relative overflow-hidden">
                           {/* Enhanced Card Glow Effect */}
                           <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-cyan-600/5 to-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
                           
-                          <CardHeader className="p-4 sm:p-6 relative z-10">
-                            <div className="flex flex-col gap-3">
-                              <CardTitle className="text-white text-base sm:text-lg font-bold group-hover:bg-gradient-to-r group-hover:from-teal-300 group-hover:to-cyan-300 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
+                          <CardHeader className="p-3 sm:p-4 lg:p-6 relative z-10">
+                            {/* Mobile Date Badge - Inside card */}
+                            <div className="flex items-center justify-between mb-2 sm:hidden">
+                              <motion.div
+                                className="bg-gradient-to-r from-teal-600/40 to-cyan-600/40 border border-teal-400/50 rounded-full px-3 py-1 backdrop-blur-sm shadow-lg shadow-teal-500/20"
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                transition={{ delay: index * 0.2 + 0.4 }}
+                                viewport={{ once: true }}
+                              >
+                                <span className="text-xs text-teal-200 font-semibold">
+                                  {edu.year}
+                                </span>
+                              </motion.div>
+                            </div>
+                            
+                            <div className="flex flex-col gap-2 sm:gap-3">
+                              <CardTitle className="text-white text-sm sm:text-base lg:text-lg font-bold group-hover:bg-gradient-to-r group-hover:from-teal-300 group-hover:to-cyan-300 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight pr-2">
                                 {edu.degree}
                               </CardTitle>
                               
-                              <CardDescription className="text-transparent bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-300 bg-clip-text font-bold text-sm sm:text-base drop-shadow-sm">
+                              <CardDescription className="text-transparent bg-gradient-to-r from-teal-300 via-cyan-300 to-teal-300 bg-clip-text font-bold text-xs sm:text-sm lg:text-base drop-shadow-sm leading-tight">
                                 {edu.institution}
                               </CardDescription>
                               
                               <div className="flex items-center gap-2 text-xs sm:text-sm">
-                                <Badge className="bg-gradient-to-r from-emerald-600/30 to-green-600/30 text-emerald-200 border-emerald-400/40 backdrop-blur-sm shadow-lg shadow-emerald-500/20 font-semibold">
+                                <Badge className="bg-gradient-to-r from-emerald-600/30 to-green-600/30 text-emerald-200 border-emerald-400/40 backdrop-blur-sm shadow-lg shadow-emerald-500/20 font-semibold text-xs px-2 py-1">
                                   {edu.grade}
                                 </Badge>
                               </div>
                             </div>
                           </CardHeader>
                           
-                          <CardContent className="p-4 sm:p-6 pt-0 relative z-10">
-                            <p className="text-gray-200 text-sm sm:text-base leading-relaxed group-hover:text-white transition-colors duration-200">
+                          <CardContent className="p-3 sm:p-4 lg:p-6 pt-0 relative z-10">
+                            <p className="text-gray-200 text-xs sm:text-sm lg:text-base leading-relaxed group-hover:text-white transition-colors duration-200">
                               {edu.description}
                             </p>
                           </CardContent>
@@ -1003,129 +1352,6 @@ function PortfolioContent() {
                     </motion.div>
                   ))}
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Projects Section */}
-        <section id="projects" className="py-16 sm:py-24 lg:py-32">
-          <div className="container mx-auto px-4 sm:px-6">
-            <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
-              <motion.div variants={fadeInUp} className="text-center mb-12 sm:mb-16">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">Featured Work</h2>
-                <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 mx-auto mb-6 sm:mb-8" />
-                <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4">
-                  Some of my best work that I'm proud to showcase
-                </p>
-              </motion.div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-                {projects.map((project, index) => (
-                  <motion.div key={project.id} variants={fadeInUp}>
-                    <Card className="bg-gradient-to-br from-gray-900/60 to-gray-800/40 border-gray-700/50 backdrop-blur-xl hover:bg-gradient-to-br hover:from-gray-900/80 hover:to-gray-800/60 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-teal-500/10 hover:border-teal-500/30 hover:scale-[1.02]">
-                      <CardHeader className="p-4 sm:p-6">
-                        <div className="flex justify-between items-start mb-3 sm:mb-4">
-                          <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
-                            {project.title}
-                          </CardTitle>
-                          <Badge
-                            className={`${
-                              project.status === "Completed"
-                                ? "bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-300 border-green-600/30"
-                                : project.status === "Live"
-                                  ? "bg-gradient-to-r from-teal-600/20 to-cyan-600/20 text-teal-300 border-teal-600/30"
-                                  : "bg-gradient-to-r from-yellow-600/20 to-orange-600/20 text-yellow-300 border-yellow-600/30"
-                            } backdrop-blur-sm text-xs whitespace-nowrap`}
-                          >
-                            {project.status}
-                          </Badge>
-                        </div>
-                        <CardDescription className="text-gray-400 leading-relaxed text-sm sm:text-base">
-                          {project.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="p-4 sm:p-6 pt-0">
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-                          {project.technologies.map((tech) => (
-                            <Badge
-                              key={tech}
-                              variant="outline"
-                              className="border-gray-600/50 text-gray-300 bg-gray-800/50 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 transition-all duration-300"
-                            >
-                              {tech}
-                            </Badge>
-                          ))}
-                        </div>
-                        <div className="flex flex-wrap gap-3 sm:gap-4">
-                          {project.links.map((link, idx) => (
-                            <Button
-                              key={idx}
-                              size="sm"
-                              variant="ghost"
-                              className="text-gray-400 hover:text-teal-400 p-0 h-auto group/btn text-xs sm:text-sm"
-                              onClick={() => window.open(link.url, "_blank")}
-                            >
-                              <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
-                              {link.type}
-                            </Button>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* Skills Section */}
-        <section id="skills" className="py-16 sm:py-24 lg:py-32 bg-gray-950/30">
-          <div className="container mx-auto px-4 sm:px-6">
-            <motion.div variants={staggerContainer} initial="initial" whileInView="animate" viewport={{ once: true }}>
-              <motion.div variants={fadeInUp} className="text-center mb-12 sm:mb-16">
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6">Skills & Technologies</h2>
-                <div className="w-16 sm:w-20 h-1 bg-gradient-to-r from-teal-500 to-cyan-500 mx-auto mb-6 sm:mb-8" />
-                <p className="text-base sm:text-lg text-gray-400 max-w-2xl mx-auto px-4">
-                  Technologies and tools I've mastered over the years
-                </p>
-              </motion.div>
-
-              <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
-                {skillsData.map((skillGroup, groupIndex) => (
-                  <motion.div key={skillGroup.category} variants={fadeInUp}>
-                    <Card className="bg-gray-900/50 border-gray-700 backdrop-blur-sm h-full">
-                      <CardHeader className="text-center p-4 sm:p-6">
-                        <CardTitle className="text-white text-base sm:text-lg mb-3 sm:mb-4">{skillGroup.category}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-4 sm:p-6 pt-0">
-                        <div className="space-y-3 sm:space-y-4">
-                          {skillGroup.skills.map((skill, index) => (
-                            <div key={skill.name} className="space-y-2">
-                              <div className="flex justify-between items-center">
-                                <div className="flex items-center space-x-2">
-                                  <span className="text-base sm:text-lg">{skill.icon}</span>
-                                  <span className="text-xs sm:text-sm font-medium text-gray-300">{skill.name}</span>
-                                </div>
-                                <span className="text-xs text-teal-400 font-semibold">{skill.level}%</span>
-                              </div>
-                              <div className="w-full bg-gray-700 rounded-full h-1.5 sm:h-2">
-                                <motion.div
-                                  className="bg-gradient-to-r from-teal-500 to-cyan-500 h-1.5 sm:h-2 rounded-full"
-                                  initial={{ width: 0 }}
-                                  whileInView={{ width: `${skill.level}%` }}
-                                  transition={{ duration: 1.5, delay: index * 0.1 }}
-                                  viewport={{ once: true }}
-                                />
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
               </div>
             </motion.div>
           </div>
