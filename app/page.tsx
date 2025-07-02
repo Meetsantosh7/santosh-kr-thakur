@@ -55,7 +55,7 @@ const personalInfo = {
   socialLinks: [
     { name: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
     { name: "LinkedIn", url: "https://linkedin.com/in/santoshkumarthakur", icon: Linkedin },
-    { name: "Instagram", url: "https://instagram.com/lift_withsantosh", icon: Instagram },
+    { name: "Instagram", url: "#", icon: Instagram },
     { name: "Email", url: "mailto:santosh07entrepreneur@gmail.com", icon: Mail },
   ],
 }
