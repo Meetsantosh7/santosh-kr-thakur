@@ -180,6 +180,42 @@ const projects = [
   },
   {
     id: 4,
+    title: "Hotel Reservation Website",
+    description:
+      "Comprehensive hotel booking platform with advanced search filters, real-time availability, secure payment processing, and user-friendly reservation management",
+    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "MongoDB", "Stripe"],
+    status: "Completed",
+    links: [
+      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
+      { type: "Live Demo", url: "#", icon: ExternalLink },
+    ],
+  },
+  {
+    id: 5,
+    title: "University Website",
+    description:
+      "Modern university portal with course management, student information system, faculty profiles, and interactive campus virtual tour",
+    technologies: ["React.js", "Tailwind CSS", "Node.js", "Express", "PostgreSQL"],
+    status: "Completed", 
+    links: [
+      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
+      { type: "Live Demo", url: "#", icon: ExternalLink },
+    ],
+  },
+  {
+    id: 6,
+    title: "Social Media Website",
+    description:
+      "Interactive social networking platform with user profiles, real-time messaging, photo sharing, and dynamic feed with engagement features",
+    technologies: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
+    status: "Completed",
+    links: [
+      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
+      { type: "Live Demo", url: "#", icon: ExternalLink },
+    ],
+  },
+  {
+    id: 7,
     title: "Real Estate Management System",
     description:
       "Comprehensive property management platform with client portal, property listings, and automated reporting features",
@@ -191,7 +227,7 @@ const projects = [
     ],
   },
   {
-    id: 5,
+    id: 8,
     title: "Task Management App",
     description:
       "Team collaboration tool with real-time updates, project tracking, and performance analytics for enhanced productivity",
@@ -203,7 +239,7 @@ const projects = [
     ],
   },
   {
-    id: 6,
+    id: 9,
     title: "Restaurant Ordering System",
     description:
       "Digital menu and ordering platform with payment integration, order tracking, and inventory management for restaurants",
@@ -424,7 +460,7 @@ function PortfolioContent() {
       <div className="relative z-10">
         {/* Desktop Navigation */}
         <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 hidden md:block">
-          <div className="bg-black/90 backdrop-blur-xl border border-gray-700/50 rounded-full px-8 py-4 shadow-2xl shadow-teal-500/10">
+          <div className="bg-white/10 backdrop-blur-xl border border-gray-700/20 rounded-2xl px-8 py-4 shadow-lg hover:bg-white/20 transition-all duration-300">
             <div className="flex items-center space-x-2">
               {navigationItems.map((item) => (
                 <button
@@ -433,7 +469,7 @@ function PortfolioContent() {
                   className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 relative overflow-hidden ${
                     activeSection === item.id
                       ? "bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg shadow-teal-600/30"
-                      : "text-gray-400 hover:text-white hover:bg-gray-800/80"
+                      : "text-gray-300 hover:text-white hover:bg-white/10"
                   }`}
                 >
                   {activeSection === item.id && (
@@ -453,7 +489,7 @@ function PortfolioContent() {
         {/* Mobile Menu Button */}
         <button
           onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="fixed top-6 right-6 z-50 md:hidden bg-black/90 backdrop-blur-md border border-gray-700/50 rounded-full p-3 shadow-xl"
+          className="fixed top-6 right-6 z-50 md:hidden bg-white/10 backdrop-blur-md border border-gray-700/20 rounded-full p-3 shadow-lg hover:bg-white/20 transition-all duration-300"
         >
           <motion.div
             animate={{ rotate: isMenuOpen ? 180 : 0 }}
@@ -470,7 +506,7 @@ function PortfolioContent() {
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              className="fixed top-20 right-6 z-40 md:hidden bg-black/95 backdrop-blur-xl border border-gray-700/50 rounded-2xl p-4 shadow-2xl min-w-[200px]"
+              className="fixed top-20 right-6 z-40 md:hidden bg-white/10 backdrop-blur-xl border border-gray-700/20 rounded-2xl p-4 shadow-lg min-w-[200px]"
             >
               <div className="flex flex-col space-y-2">
                 {navigationItems.map((item) => (
@@ -480,7 +516,7 @@ function PortfolioContent() {
                     className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-300 text-left relative overflow-hidden ${
                       activeSection === item.id
                         ? "bg-gradient-to-r from-teal-600 to-cyan-600 text-white shadow-lg"
-                        : "text-gray-400 hover:text-white hover:bg-gray-800/80"
+                        : "text-gray-300 hover:text-white hover:bg-white/10"
                     }`}
                     whileHover={{ x: 4 }}
                     whileTap={{ scale: 0.98 }}
@@ -675,7 +711,7 @@ function PortfolioContent() {
                 {/* Profile Photo and Intro Text - Side by Side */}
                 <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
                   <motion.div variants={fadeInUp}>
-                    <div className="bg-gradient-to-br from-gray-900/50 to-gray-800/30 backdrop-blur-xl border border-gray-700/50 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-2xl">
+                    <div className="bg-white/10 backdrop-blur-xl border border-gray-700/20 rounded-2xl sm:rounded-3xl p-6 sm:p-8 shadow-lg hover:bg-white/20 transition-all duration-300">
                       <p className="text-base sm:text-lg text-gray-300 leading-relaxed">
                         I am a motivated and versatile individual, always eager to take on new challenges. With a passion for learning I am dedicated to delivering high-quality results. With a positive attitude and a growth mindset, I am ready to make a meaningful contribution and achieve great things.
                       </p>
@@ -685,7 +721,7 @@ function PortfolioContent() {
                   <motion.div variants={fadeInUp} className="flex justify-center mt-8 lg:mt-0">
                     {/* Profile Photo */}
                     <div className="relative group">
-                      <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-700/50 shadow-2xl backdrop-blur-sm bg-gradient-to-br from-gray-900/50 to-gray-800/30 p-2">
+                      <div className="w-72 h-72 sm:w-80 sm:h-80 rounded-2xl sm:rounded-3xl overflow-hidden border border-gray-700/20 shadow-lg backdrop-blur-sm bg-white/10 p-2 hover:bg-white/20 transition-all duration-300">
                         <div className="w-full h-full rounded-xl sm:rounded-2xl overflow-hidden">
                           <img
                             src="/images/profile.jpeg"
@@ -701,22 +737,22 @@ function PortfolioContent() {
                 </div>
 
                 {/* SIH Design Mentor Experience Carousel */}
-                <motion.div variants={fadeInUp} className="mt-12">
-                  <div className="text-center mb-6 sm:mb-8">
-                    <h3 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent">
+                <motion.div variants={fadeInUp} className="mt-8">
+                  <div className="text-center mb-4 sm:mb-6">
+                    <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 bg-gradient-to-r from-white via-teal-200 to-cyan-200 bg-clip-text text-transparent">
                       Smart India Hackathon
                     </h3>
-                    <p className="text-sm sm:text-base lg:text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed px-2 sm:px-0">
-                      Proud to serve as a <span className="text-teal-300 font-semibold">UI/UX Design Mentor</span> at Smart India Hackathon, guiding teams to create exceptional user experiences and innovative interface solutions
+                    <p className="text-xs sm:text-sm lg:text-base text-gray-400 max-w-xl mx-auto leading-relaxed px-2 sm:px-0">
+                      Proud to serve as a <span className="text-teal-300 font-semibold">UI/UX Design Mentor</span> at Smart India Hackathon
                     </p>
                   </div>
 
-                  <div className="relative max-w-4xl mx-auto">
-                    <div className="bg-gradient-to-br from-gray-900/80 via-gray-800/60 to-gray-900/80 backdrop-blur-2xl border border-gray-600/30 rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl">
+                  <div className="relative max-w-3xl mx-auto">
+                    <div className="bg-white/10 backdrop-blur-2xl border border-gray-700/20 rounded-2xl sm:rounded-3xl overflow-hidden shadow-lg hover:bg-white/20 transition-all duration-300">
                       {/* Carousel Container */}
                       <div className="relative">
-                        {/* Mobile aspect ratio 4:3, Desktop 16:9 */}
-                        <div className="aspect-[4/3] sm:aspect-[16/9] overflow-hidden bg-gray-800/50 relative">
+                        {/* Mobile aspect ratio 3:2, Desktop 5:3 for more compact view */}
+                        <div className="aspect-[3/2] sm:aspect-[5/3] overflow-hidden bg-gray-800/50 relative">
                           <motion.div 
                             className="flex transition-transform duration-500 ease-in-out h-full cursor-grab active:cursor-grabbing"
                             style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -773,7 +809,7 @@ function PortfolioContent() {
                         {/* Navigation Arrows - Responsive sizing */}
                         <button
                           onClick={prevSlide}
-                          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 hover:bg-black/80 rounded-full flex items-center justify-center transition-all duration-200 group backdrop-blur-sm border border-white/10 touch-manipulation"
+                          className="absolute left-2 sm:left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all duration-200 group backdrop-blur-sm border border-gray-700/20 touch-manipulation"
                           aria-label="Previous slide"
                         >
                           <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-110 transition-transform" />
@@ -781,7 +817,7 @@ function PortfolioContent() {
                         
                         <button
                           onClick={nextSlide}
-                          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-black/60 hover:bg-black/80 rounded-full flex items-center justify-center transition-all duration-200 group backdrop-blur-sm border border-white/10 touch-manipulation"
+                          className="absolute right-2 sm:right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 sm:w-12 sm:h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all duration-200 group backdrop-blur-sm border border-gray-700/20 touch-manipulation"
                           aria-label="Next slide"
                         >
                           <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 text-white group-hover:scale-110 transition-transform" />
@@ -805,16 +841,16 @@ function PortfolioContent() {
                       </div>
 
                       {/* SIH Details */}
-                      <div className="p-4 sm:p-6 lg:p-8">
-                        <div className="grid sm:grid-cols-2 gap-6">
-                          <div className="space-y-4">
+                      <div className="p-3 sm:p-4 lg:p-6">
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div className="space-y-3">
                             <div className="flex items-center space-x-3">
-                              <div className="w-10 h-10 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-full flex items-center justify-center">
-                                <span className="text-white font-bold text-sm">SIH</span>
+                              <div className="w-8 h-8 bg-gradient-to-r from-teal-600 to-cyan-600 rounded-full flex items-center justify-center">
+                                <span className="text-white font-bold text-xs">SIH</span>
                               </div>
                               <div>
-                                <h5 className="text-white font-semibold">Smart India Hackathon</h5>
-                                <p className="text-gray-400 text-sm">UI/UX Design Mentor</p>
+                                <h5 className="text-white font-semibold text-sm">Smart India Hackathon</h5>
+                                <p className="text-gray-400 text-xs">UI/UX Design Mentor</p>
                               </div>
                             </div>
                             <div className="flex items-center space-x-3">
@@ -827,7 +863,7 @@ function PortfolioContent() {
                               </div>
                             </div>
                           </div>
-                          <div className="space-y-4">
+                          <div className="space-y-3">
                             <div className="flex items-center space-x-3">
                               <div className="w-10 h-10 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full flex items-center justify-center">
                                 <span className="text-white text-lg">👥</span>
@@ -850,14 +886,14 @@ function PortfolioContent() {
                         </div>
 
                         {/* Quote */}
-                        <div className="mt-6 p-4 bg-gradient-to-r from-teal-500/10 via-emerald-500/5 to-cyan-500/10 border border-teal-400/20 rounded-2xl backdrop-blur-sm">
+                        <div className="mt-4 p-3 bg-white/5 border border-gray-700/20 rounded-xl backdrop-blur-sm hover:bg-white/10 transition-all duration-300">
                           <blockquote className="text-center">
-                            <p className="text-sm sm:text-base text-gray-200 font-medium leading-relaxed mb-3">
-                              "Empowering young designers to create intuitive user experiences and innovative interface solutions that can transform digital interaction in our nation."
+                            <p className="text-xs sm:text-sm text-gray-200 font-medium leading-relaxed mb-2">
+                              "Empowering young designers to create intuitive user experiences and innovative interface solutions."
                             </p>
-                            <footer className="flex items-center justify-center space-x-2">
+                            <footer className="flex items-center justify-center space-x-1.5">
                               <motion.div
-                                className="w-2 h-2 bg-teal-400 rounded-full"
+                                className="w-1.5 h-1.5 bg-teal-400 rounded-full"
                                 animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
                                 transition={{ duration: 2, repeat: Infinity }}
                               />
@@ -865,7 +901,7 @@ function PortfolioContent() {
                                 SIH UI/UX DESIGN MENTOR
                               </span>
                               <motion.div
-                                className="w-2 h-2 bg-cyan-400 rounded-full"
+                                className="w-1.5 h-1.5 bg-cyan-400 rounded-full"
                                 animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
                                 transition={{ duration: 2, repeat: Infinity, delay: 1 }}
                               />
@@ -900,9 +936,9 @@ function PortfolioContent() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
                 {skillsData.map((skillGroup, groupIndex) => (
                   <motion.div key={skillGroup.category} variants={fadeInUp}>
-                    <Card className="bg-gray-900/50 border-gray-700 backdrop-blur-sm h-full">
+                    <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 h-full rounded-2xl overflow-hidden hover:shadow-xl hover:shadow-white/5">
                       <CardHeader className="text-center p-4 sm:p-6">
-                        <CardTitle className="text-white text-base sm:text-lg mb-3 sm:mb-4">{skillGroup.category}</CardTitle>
+                        <CardTitle className="text-white text-base sm:text-lg mb-3 sm:mb-4 font-semibold">{skillGroup.category}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-4 sm:p-6 pt-0">
                         <div className="space-y-3 sm:space-y-4">
@@ -915,7 +951,7 @@ function PortfolioContent() {
                                 </div>
                                 <span className="text-xs text-teal-400 font-semibold">{skill.level}%</span>
                               </div>
-                              <div className="w-full bg-gray-700 rounded-full h-1.5 sm:h-2">
+                              <div className="w-full bg-gray-700/50 rounded-full h-1.5 sm:h-2">
                                 <motion.div
                                   className="bg-gradient-to-r from-teal-500 to-cyan-500 h-1.5 sm:h-2 rounded-full"
                                   initial={{ width: 0 }}
@@ -951,7 +987,7 @@ function PortfolioContent() {
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
                 {projects.map((project, index) => (
                   <motion.div key={project.id} variants={fadeInUp}>
-                    <Card className="bg-gradient-to-br from-gray-900/60 to-gray-800/40 border-gray-700/50 backdrop-blur-xl hover:bg-gradient-to-br hover:from-gray-900/80 hover:to-gray-800/60 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-teal-500/10 hover:border-teal-500/30 hover:scale-[1.02]">
+                    <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-white/5 hover:border-gray-600/30 hover:scale-[1.02] rounded-2xl overflow-hidden">
                       <CardHeader className="p-4 sm:p-6">
                         <div className="flex justify-between items-start mb-3 sm:mb-4">
                           <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
@@ -960,16 +996,18 @@ function PortfolioContent() {
                           <Badge
                             className={`${
                               project.status === "Completed"
-                                ? "bg-gradient-to-r from-green-600/20 to-emerald-600/20 text-green-300 border-green-600/30"
+                                ? "bg-green-500/20 text-green-300 border-green-500/30"
                                 : project.status === "Live"
-                                  ? "bg-gradient-to-r from-teal-600/20 to-cyan-600/20 text-teal-300 border-teal-600/30"
-                                  : "bg-gradient-to-r from-yellow-600/20 to-orange-600/20 text-yellow-300 border-yellow-600/30"
-                            } backdrop-blur-sm text-xs whitespace-nowrap`}
+                                  ? "bg-teal-500/20 text-teal-300 border-teal-500/30"
+                                  : project.status === "Award Winner"
+                                  ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+                                  : "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                            } backdrop-blur-sm text-xs whitespace-nowrap rounded-full px-3 py-1`}
                           >
                             {project.status}
                           </Badge>
                         </div>
-                        <CardDescription className="text-gray-400 leading-relaxed text-sm sm:text-base">
+                        <CardDescription className="text-gray-300 leading-relaxed text-sm sm:text-base">
                           {project.description}
                         </CardDescription>
                       </CardHeader>
@@ -979,7 +1017,7 @@ function PortfolioContent() {
                             <Badge
                               key={tech}
                               variant="outline"
-                              className="border-gray-600/50 text-gray-300 bg-gray-800/50 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 transition-all duration-300"
+                              className="border-gray-600/40 text-gray-400 bg-gray-800/30 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 hover:text-teal-300 transition-all duration-300 rounded-full px-2 py-1"
                             >
                               {tech}
                             </Badge>
@@ -1068,7 +1106,7 @@ function PortfolioContent() {
                         
                         {/* Date Badge - Desktop */}
                         <motion.div
-                          className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-teal-600/30 to-cyan-600/30 border border-teal-400/40 rounded-full px-4 py-2 backdrop-blur-sm shadow-lg shadow-teal-500/20"
+                          className="absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-white/10 border border-gray-700/20 rounded-full px-4 py-2 backdrop-blur-sm shadow-lg"
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.2 + 0.3 }}
@@ -1119,16 +1157,16 @@ function PortfolioContent() {
                         }}
                         viewport={{ once: true }}
                       >
-                        <Card className="bg-gradient-to-br from-teal-950/40 via-gray-900/60 to-cyan-950/40 border border-teal-500/20 backdrop-blur-xl hover:bg-gradient-to-br hover:from-teal-900/60 hover:via-gray-800/80 hover:to-cyan-900/60 transition-all duration-500 group hover:shadow-2xl hover:shadow-teal-500/30 hover:border-teal-400/50 hover:scale-[1.03] relative overflow-hidden">
+                        <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl rounded-2xl hover:bg-white/20 transition-all duration-500 group hover:shadow-xl hover:border-gray-600/30 hover:scale-[1.03] relative overflow-hidden">
                           {/* Enhanced Card Glow Effect */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-cyan-600/5 to-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/5 via-cyan-600/5 to-teal-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
                           
                           <CardHeader className="p-4 sm:p-6 relative z-10">
                             <div className="flex flex-col gap-3">
                               {/* Mobile Date Badge */}
                               <motion.div
-                                className="sm:hidden bg-gradient-to-r from-teal-600/30 to-cyan-600/30 border border-teal-400/40 rounded-full px-3 py-1 backdrop-blur-sm self-start shadow-lg shadow-teal-500/20"
+                                className="sm:hidden bg-white/10 border border-gray-700/20 rounded-full px-3 py-1 backdrop-blur-sm self-start shadow-lg"
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 transition={{ delay: index * 0.2 + 0.3 }}
@@ -1143,7 +1181,7 @@ function PortfolioContent() {
                                 <CardTitle className="text-white text-base sm:text-lg font-bold group-hover:bg-gradient-to-r group-hover:from-teal-300 group-hover:to-cyan-300 group-hover:bg-clip-text group-hover:text-transparent transition-all duration-300 leading-tight">
                                   {exp.title}
                                 </CardTitle>
-                                <Badge className="bg-gradient-to-r from-emerald-600/30 to-green-600/30 text-emerald-200 border-emerald-400/40 backdrop-blur-sm text-xs whitespace-nowrap flex-shrink-0 shadow-lg shadow-emerald-500/20 font-semibold">
+                                <Badge className="bg-white/10 text-gray-200 border-gray-600/30 backdrop-blur-sm text-xs whitespace-nowrap flex-shrink-0 shadow-lg font-semibold hover:bg-white/20 transition-all duration-300">
                                   {exp.type}
                                 </Badge>
                               </div>
@@ -1153,13 +1191,13 @@ function PortfolioContent() {
                               </CardDescription>
                               
                               <div className="flex flex-wrap gap-3 text-xs sm:text-sm text-gray-300">
-                                <span className="flex items-center gap-1.5 bg-teal-500/10 border border-teal-500/20 rounded-full px-2 py-1">
+                                <span className="flex items-center gap-1.5 bg-white/10 border border-gray-700/20 rounded-full px-2 py-1">
                                   <MapPin className="w-3 h-3 text-teal-400" />
-                                  <span className="text-teal-200">{exp.location}</span>
+                                  <span className="text-gray-200">{exp.location}</span>
                                 </span>
-                                <span className="flex items-center gap-1.5 bg-cyan-500/10 border border-cyan-500/20 rounded-full px-2 py-1">
+                                <span className="flex items-center gap-1.5 bg-white/10 border border-gray-700/20 rounded-full px-2 py-1">
                                   <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-                                  <span className="text-cyan-200">{exp.duration}</span>
+                                  <span className="text-gray-200">{exp.duration}</span>
                                 </span>
                               </div>
                             </div>
@@ -1187,7 +1225,7 @@ function PortfolioContent() {
                                 <Badge
                                   key={tech}
                                   variant="outline"
-                                  className="border-teal-400/30 text-teal-100 bg-gradient-to-r from-teal-600/20 to-cyan-600/20 backdrop-blur-sm text-xs hover:bg-gradient-to-r hover:from-teal-500/30 hover:to-cyan-500/30 hover:border-teal-300/50 hover:scale-105 transition-all duration-300 font-medium shadow-sm"
+                                  className="border-gray-700/20 text-gray-200 bg-white/10 backdrop-blur-sm text-xs hover:bg-white/20 hover:border-gray-600/30 hover:scale-105 transition-all duration-300 font-medium shadow-sm"
                                 >
                                   {tech}
                                 </Badge>
@@ -1195,7 +1233,7 @@ function PortfolioContent() {
                               {exp.technologies.length > 4 && (
                                 <Badge
                                   variant="outline"
-                                  className="border-gray-500/30 text-gray-300 bg-gradient-to-r from-gray-600/20 to-gray-700/20 backdrop-blur-sm text-xs hover:border-teal-400/30 hover:text-teal-200 transition-all duration-300"
+                                  className="border-gray-600/30 text-gray-300 bg-white/10 backdrop-blur-sm text-xs hover:border-gray-500/30 hover:text-gray-200 transition-all duration-300"
                                 >
                                   +{exp.technologies.length - 4} more
                                 </Badge>
@@ -1262,7 +1300,7 @@ function PortfolioContent() {
                         
                         {/* Date Badge - Desktop only */}
                         <motion.div
-                          className="hidden sm:block absolute top-12 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-teal-600/30 to-cyan-600/30 border border-teal-400/40 rounded-full px-3 lg:px-4 py-1.5 lg:py-2 backdrop-blur-sm whitespace-nowrap shadow-lg shadow-teal-500/20 z-30"
+                          className="hidden sm:block absolute top-12 left-1/2 transform -translate-x-1/2 bg-white/10 border border-gray-700/20 rounded-full px-3 lg:px-4 py-1.5 lg:py-2 backdrop-blur-sm whitespace-nowrap shadow-lg z-30"
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.2 + 0.3 }}
@@ -1301,16 +1339,16 @@ function PortfolioContent() {
                         }}
                         viewport={{ once: true }}
                       >
-                        <Card className="bg-gradient-to-br from-teal-950/40 via-gray-900/60 to-cyan-950/40 border border-teal-500/20 backdrop-blur-xl hover:bg-gradient-to-br hover:from-teal-900/60 hover:via-gray-800/80 hover:to-cyan-900/60 transition-all duration-500 group hover:shadow-2xl hover:shadow-teal-500/30 hover:border-teal-400/50 hover:scale-[1.02] sm:hover:scale-[1.03] relative overflow-hidden">
+                        <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl rounded-2xl hover:bg-white/20 transition-all duration-500 group hover:shadow-xl hover:border-gray-600/30 hover:scale-[1.02] sm:hover:scale-[1.03] relative overflow-hidden">
                           {/* Enhanced Card Glow Effect */}
-                          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/10 via-cyan-600/5 to-teal-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                          <div className="absolute inset-0 bg-gradient-to-r from-teal-600/5 via-cyan-600/5 to-teal-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                           <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-teal-500 via-cyan-500 to-teal-500 opacity-60 group-hover:opacity-100 transition-opacity duration-300" />
                           
                           <CardHeader className="p-3 sm:p-4 lg:p-6 relative z-10">
                             {/* Mobile Date Badge - Inside card */}
                             <div className="flex items-center justify-between mb-2 sm:hidden">
                               <motion.div
-                                className="bg-gradient-to-r from-teal-600/40 to-cyan-600/40 border border-teal-400/50 rounded-full px-3 py-1 backdrop-blur-sm shadow-lg shadow-teal-500/20"
+                                className="bg-white/10 border border-gray-700/20 rounded-full px-3 py-1 backdrop-blur-sm shadow-lg"
                                 initial={{ opacity: 0, x: -20 }}
                                 whileInView={{ opacity: 1, x: 0 }}
                                 transition={{ delay: index * 0.2 + 0.4 }}
@@ -1332,7 +1370,7 @@ function PortfolioContent() {
                               </CardDescription>
                               
                               <div className="flex items-center gap-2 text-xs sm:text-sm">
-                                <Badge className="bg-gradient-to-r from-emerald-600/30 to-green-600/30 text-emerald-200 border-emerald-400/40 backdrop-blur-sm shadow-lg shadow-emerald-500/20 font-semibold text-xs px-2 py-1">
+                                <Badge className="bg-white/10 text-gray-200 border-gray-600/30 backdrop-blur-sm shadow-lg font-semibold text-xs px-2 py-1 hover:bg-white/20 transition-all duration-300">
                                   {edu.grade}
                                 </Badge>
                               </div>
@@ -1371,13 +1409,13 @@ function PortfolioContent() {
 
               <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 max-w-6xl mx-auto">
                 <motion.div variants={fadeInUp}>
-                  <Card className="bg-gray-900/50 border-gray-700 backdrop-blur-sm">
+                  <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 rounded-2xl overflow-hidden">
                     <CardHeader className="p-4 sm:p-6">
                       <CardTitle className="text-white flex items-center text-lg sm:text-xl">
                         <Send className="w-4 h-4 sm:w-5 sm:h-5 mr-2 text-teal-400" />
                         Send me a message
                       </CardTitle>
-                      <CardDescription className="text-sm sm:text-base">I'll get back to you within 24 hours</CardDescription>
+                      <CardDescription className="text-sm sm:text-base text-gray-300">I'll get back to you within 24 hours</CardDescription>
                     </CardHeader>
                     <CardContent className="p-4 sm:p-6 pt-0">
                       <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
@@ -1385,20 +1423,20 @@ function PortfolioContent() {
                           placeholder="Your Name"
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                          className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 h-10 sm:h-12 text-sm sm:text-base"
+                          className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 h-10 sm:h-12 text-sm sm:text-base rounded-lg"
                         />
                         <Input
                           type="email"
                           placeholder="Your Email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 h-10 sm:h-12 text-sm sm:text-base"
+                          className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 h-10 sm:h-12 text-sm sm:text-base rounded-lg"
                         />
                         <Textarea
                           placeholder="Your Message"
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                          className="bg-gray-800 border-gray-600 text-white placeholder-gray-400 min-h-[100px] sm:min-h-[120px] text-sm sm:text-base"
+                          className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 min-h-[100px] sm:min-h-[120px] text-sm sm:text-base rounded-lg"
                         />
                         <Button
                           type="submit"
