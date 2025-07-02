@@ -22,6 +22,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useState, useEffect } from "react"
+import ClientOnly from "./components/ClientOnly"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 60 },
@@ -62,51 +63,79 @@ const personalInfo = {
 const experiences = [
   {
     id: 1,
-    title: "Senior Full Stack Developer",
+    title: "Software Developer",
     company: "Ministry of Education – Innovation Cell",
-    period: "April 2024 - Present",
-    duration: "8+ months",
-    location: "New Delhi, India",
+    period: "Mar 2024 - Present",
+    duration: "1+ Years",
+    location: "Vasant Kunj, New Delhi",
     type: "Full-time",
     responsibilities: [
       "Enhanced user experiences on Netscript PG & Netscript Analytics portal using React.js, 20% user engagement boost",
-      "Built responsive web applications with React.js and Laravel, serving 10,000+ daily active users",
+      "Built responsive web applications with React.js and Laravel, serving 60,000+ daily active users",
       "Optimized database queries reducing response time by 40% using MySQL optimization techniques",
       "Mentored junior developers and conducted code reviews ensuring high code quality",
     ],
-    technologies: ["React.js", "Next.js", "Laravel", "MySQL", "GitLab CI", "Docker"],
+    technologies: ["React.js", "Next.js", "Laravel", "MySQL", "GitLab ", "Php", "MYsql"],
   },
   {
     id: 2,
     title: "Technical Support Engineer",
-    company: "Zoro Mart Pvt Ltd",
-    period: "Aug 2022 - Mar 2023",
+    company: "Tech mahindra ",
+    period: "Aug 2023 - Mar 2023",
     duration: "8 months",
-    location: "Mumbai, India",
+    location: "Noida",
     type: "Full-time",
     responsibilities: [
-      "Built Full Stack Platforms using React.js integrated GraphQL with AXIOS",
-      "Implemented pixel-perfect UI designs from Figma mockups with 99% accuracy",
-      "Built reusable component libraries reducing development time by 30%",
-      "Optimized web applications for performance achieving 95+ Lighthouse scores",
+      "Provided technical support to 100+ clients daily, resolving complex software and hardware issues",
+      "Followed up on customer queries and maintained 95% customer satisfaction rate",
+      "Managed ticketing system using Jira, ensuring timely resolution of critical issues",
+      "Collaborated with development teams to escalate and resolve technical bugs",
+      "Conducted system diagnostics and troubleshooting for client applications",
+      "Created technical documentation and knowledge base articles for common issues",
+      "Monitored system performance and provided proactive maintenance recommendations",
+      "Trained new team members on support processes and troubleshooting techniques",
     ],
-    technologies: ["React.js", "GraphQL", "AXIOS", "Figma", "REST APIs", "JavaScript", "CSS3"],
+    technologies: ["Jira", "Bliss", "ServiceNow", "Remote Desktop", "Windows Server", "Linux", "SQL"],
   },
   {
     id: 3,
-    title: "Full Stack Developer",
-    company: "Freelance",
-    period: "May 2021 - Present",
-    duration: "3+ years",
-    location: "Remote",
-    type: "Freelance",
+    title: "Tech Support Engineer",
+    company: "Concentrics Pvt Ltd",
+    period: "Aug 2022 - Dec 2022",
+    duration: "5 months",
+    location: "Gurugram",
+    type: "Full-time",
     responsibilities: [
-      "Developed 10+ custom web applications for various clients across different industries",
-      "Built e-commerce platforms, portfolio websites, and business management systems",
-      "Collaborated with clients to understand requirements and deliver solutions within deadlines",
-      "Maintained long-term client relationships with 95% client satisfaction rate",
+      "Provided remote technical support to clients across different time zones",
+      "Troubleshot software installations, configurations, and compatibility issues",
+      "Assisted clients with network connectivity and security setup problems",
+      "Resolved hardware malfunctions and provided replacement recommendations",
+      "Documented technical issues and solutions in company knowledge base",
+      "Conducted remote screen sharing sessions for hands-on problem resolution",
+      "Managed support ticket queue and prioritized based on severity levels",
+      "Provided technical training to end-users on software applications",
     ],
-    technologies: ["React.js", "Node.js", "Laravel", "PHP", "MySQL", "JavaScript", "CSS3"],
+    technologies: ["TeamViewer", "Remote Desktop", "Windows", "MacOS", "Office 365", "VPN", "Antivirus"],
+  },
+  {
+    id: 4,
+    title: "Data Analyst Intern",
+    company: "The QED Group Pvt. Ltd., New Delhi",
+    period: "Jan 2019 - Jun 2019",
+    duration: "5 months",
+    location: "Green Park, New Delhi",
+    type: "Internship",
+    responsibilities: [
+      "Analyzed large datasets using Excel and Python to identify business trends and patterns",
+      "Created comprehensive reports and visualizations using Power BI and Tableau",
+      "Cleaned and preprocessed raw data to ensure accuracy and consistency",
+      "Collaborated with senior analysts to develop data-driven insights for business decisions",
+      "Performed statistical analysis and hypothesis testing on customer behavior data",
+      "Automated data collection processes using Python scripts and SQL queries",
+      "Presented findings to stakeholders through interactive dashboards and presentations",
+      "Maintained data integrity and implemented quality control measures",
+    ],
+    technologies: ["Python", "SQL", "Excel", "Power BI", "Tableau", "Pandas", "NumPy", "MySQL"],
   },
 ]
 
@@ -271,7 +300,7 @@ const navigationItems = [
   { name: "Contact", id: "contact" },
 ]
 
-export default function Portfolio() {
+function PortfolioContent() {
   const [activeSection, setActiveSection] = useState("home")
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [formData, setFormData] = useState({
@@ -288,15 +317,14 @@ export default function Portfolio() {
   const scrollToSection = (sectionId: string) => {
     setActiveSection(sectionId)
     setIsMenuOpen(false)
-    if (typeof window !== 'undefined') {
-      document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" })
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" })
     }
   }
 
   // Intersection Observer for active section
   useEffect(() => {
-    if (typeof window === 'undefined') return
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -317,7 +345,7 @@ export default function Portfolio() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-black text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-black text-white relative overflow-x-hidden" suppressHydrationWarning>
       {/* Geometric Background Pattern */}
       <div className="fixed inset-0 opacity-30">
         <div className="absolute inset-0 bg-gradient-to-br from-teal-900/20 via-transparent to-cyan-900/20" />
@@ -1258,5 +1286,13 @@ export default function Portfolio() {
         <div className="h-20 md:hidden" />
       </div>
     </div>
+  )
+}
+
+export default function Portfolio() {
+  return (
+    <ClientOnly>
+      <PortfolioContent />
+    </ClientOnly>
   )
 }
