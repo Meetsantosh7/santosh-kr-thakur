@@ -24,7 +24,7 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
       if (login(password)) {
         onLogin();
       } else {
-        setError('Invalid password. Default password is: admin123');
+        setError('Invalid password. Please try again.');
       }
     } catch (err) {
       setError('Login failed. Please try again.');
@@ -72,10 +72,6 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
               >
                 {loading ? 'Logging in...' : 'Login to Dashboard'}
               </Button>
-              
-              <div className="text-center text-sm text-gray-400 mt-4">
-                <p>💡 Default password: <code className="text-teal-300">admin123</code></p>
-              </div>
             </form>
           </CardContent>
         </Card>
