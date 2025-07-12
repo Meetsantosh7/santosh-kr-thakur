@@ -71,10 +71,17 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
   }
 
   async function uploadImageToFirebase(file: File): Promise<string> {
-    const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`)
-    await uploadBytes(storageRef, file)
-    const url = await getDownloadURL(storageRef)
-    return url
+    try {
+      const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`)
+      await uploadBytes(storageRef, file)
+      const url = await getDownloadURL(storageRef)
+      return url
+    } catch (error) {
+      // Log the error for debugging
+      console.error("Firebase upload error:", error)
+      // Optionally, show a toast or rethrow for higher-level handling
+      throw error
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
