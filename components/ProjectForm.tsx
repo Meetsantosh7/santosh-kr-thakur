@@ -11,6 +11,8 @@ import type { ProjectFormData } from "@/types/project"
 import { addProject } from "@/lib/projectService"
 import { toast } from "sonner"
 import { Plus, Loader2, Upload, X, ImageIcon } from "lucide-react"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
+import { storage } from "../lib/firebase" // adjust path as needed
 
 interface ProjectFormProps {
   onProjectAdded: () => void
@@ -68,22 +70,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     }
   }
 
-  const uploadImage = async (file: File): Promise<string> => {
-    const formDataUpload = new FormData()
-    formDataUpload.append("image", file)
-
-    const response = await fetch("/api/upload-project-image", {
-      method: "POST",
-      body: formDataUpload,
-    })
-
-    if (!response.ok) {
-      const errorData = await response.json()
-      throw new Error(errorData.error || "Failed to upload image")
-    }
-
-    const result = await response.json()
-    return result.imagePath
+  async function uploadImageToFirebase(file: File): Promise<string> {
+    const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`)
+    await uploadBytes(storageRef, file)
+    const url = await getDownloadURL(storageRef)
+    return url
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -98,13 +89,13 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     setLoading(true)
 
     try {
-      let imagePath = formData.image
+      let imageUrl = formData.image // default to existing image (if any)
 
       // Upload image if selected
       if (selectedFile) {
         setUploading(true)
         try {
-          imagePath = await uploadImage(selectedFile)
+          imageUrl = await uploadImageToFirebase(selectedFile)
           toast.success("✅ Image uploaded successfully!")
         } catch (error) {
           toast.error("❌ Failed to upload image")
@@ -117,7 +108,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
       }
 
       // Save project data
-      const projectData = { ...formData, image: imagePath }
+      const projectData = { ...formData, image: imageUrl || "" }
       await addProject(projectData)
       toast.success("🎉 Project added successfully!")
 
