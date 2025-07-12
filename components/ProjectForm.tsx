@@ -11,8 +11,7 @@ import type { ProjectFormData } from "@/types/project"
 import { addProject } from "@/lib/projectService"
 import { toast } from "sonner"
 import { Plus, Loader2, Upload, X, ImageIcon } from "lucide-react"
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import { storage } from "../lib/firebase" // adjust path as needed
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
 
 interface ProjectFormProps {
   onProjectAdded: () => void
@@ -70,33 +69,47 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     }
   }
 
-  // Uploads image and returns the download URL
-  async function uploadImageToFirebase(file: File): Promise<string> {
-    const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`);
-    await uploadBytes(storageRef, file);
-    const url = await getDownloadURL(storageRef); // Always use this URL!
-    return url;
+  const uploadImageToFirebase = async (file: File): Promise<string> => {
+    const storage = getStorage()
+    const storageRef = ref(storage, `project-images/${Date.now()}-${file.name}`)
+    await uploadBytes(storageRef, file)
+    return await getDownloadURL(storageRef)
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Validate required fields
     if (!formData.title.trim() || !formData.description.trim() || !formData.technologies.trim()) {
-      toast.error("Please fill in all required fields");
-      return;
+      toast.error("Please fill in all required fields")
+      return
     }
 
-    setLoading(true);
+    setLoading(true)
 
     try {
-      let imageUrl = "";
+      let imagePath = formData.image
+
+      // Upload image if selected
       if (selectedFile) {
-        imageUrl = await uploadImageToFirebase(selectedFile); // This is the ONLY URL to save!
+        setUploading(true)
+        try {
+          imagePath = await uploadImageToFirebase(selectedFile)
+          setImagePreview(imagePath) // This is the Firebase URL!
+          toast.success("✅ Image uploaded successfully!")
+        } catch (error) {
+          toast.error("❌ Failed to upload image to Firebase")
+          setLoading(false)
+          setUploading(false)
+          return
+        }
+        setUploading(false)
       }
-      const projectData = { ...formData, image: imageUrl };
-      await addProject(projectData);
-      toast.success("🎉 Project added successfully!");
+
+      // Save project data with the Firebase image URL
+      const projectData = { ...formData, image: imagePath }
+      await addProject(projectData)
+      toast.success("🎉 Project added successfully!")
 
       // Reset form
       setFormData({
@@ -107,18 +120,20 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         image: "",
         githubUrl: "",
         liveUrl: "",
-      });
-      setSelectedFile(null);
-      setImagePreview(null);
+      })
+
+      setSelectedFile(null)
+      setImagePreview(null)
       if (fileInputRef.current) {
-        fileInputRef.current.value = "";
+        fileInputRef.current.value = ""
       }
-      onProjectAdded();
+
+      onProjectAdded()
     } catch (error) {
-      toast.error("❌ Failed to add project. Please try again.");
-      console.error("Error adding project:", error);
+      toast.error("❌ Failed to add project. Please try again.")
+      console.error("Error adding project:", error)
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
   }
 
