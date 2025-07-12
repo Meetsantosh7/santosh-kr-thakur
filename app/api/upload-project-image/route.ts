@@ -1,55 +1,36 @@
-import { NextResponse } from "next/server"
-import cloudinary from "cloudinary"
+import { NextRequest, NextResponse } from "next/server"
+import fs from "fs"
+import path from "path"
+import { v4 as uuidv4 } from "uuid"
 
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-})
+export const runtime = "nodejs"
 
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
-    const formData = await request.formData()
+    const formData = await req.formData()
     const file = formData.get("image") as File
 
     if (!file) {
       return NextResponse.json({ error: "No file uploaded" }, { status: 400 })
     }
 
-    // Validate file type
-    if (!file.type.startsWith("image/")) {
-      return NextResponse.json({ error: "File must be an image" }, { status: 400 })
+    // Ensure /public/projects exists
+    const projectsDir = path.join(process.cwd(), "public", "projects")
+    if (!fs.existsSync(projectsDir)) {
+      fs.mkdirSync(projectsDir, { recursive: true })
     }
 
-    // Validate file size (5MB limit)
-    if (file.size > 5 * 1024 * 1024) {
-      return NextResponse.json({ error: "File size must be less than 5MB" }, { status: 400 })
-    }
+    // Save file with unique name
+    const ext = file.name.split(".").pop()
+    const fileName = `${uuidv4()}.${ext}`
+    const filePath = path.join(projectsDir, fileName)
+    const buffer = Buffer.from(await file.arrayBuffer())
+    fs.writeFileSync(filePath, buffer)
 
-    // Convert file to buffer
-    const arrayBuffer = await file.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
-
-    // Upload to Cloudinary
-    const uploadResult = await new Promise<any>((resolve, reject) => {
-      cloudinary.v2.uploader
-        .upload_stream(
-          { folder: "projects" },
-          (error, result) => {
-            if (error) reject(error)
-            else resolve(result)
-          }
-        )
-        .end(buffer)
-    })
-
-    return NextResponse.json({
-      success: true,
-      imagePath: uploadResult.secure_url,
-      message: "Image uploaded successfully",
-    })
+    // Return the public path
+    return NextResponse.json({ imagePath: `/projects/${fileName}` })
   } catch (error) {
-    console.error("Error uploading image:", error)
+    console.error("Upload error:", error)
     return NextResponse.json({ error: "Failed to upload image" }, { status: 500 })
   }
 }
