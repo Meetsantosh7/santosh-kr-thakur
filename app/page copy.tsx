@@ -1038,21 +1038,6 @@ function PortfolioContent() {
                 {projects.map((project, index) => (
                   <motion.div key={project.id} variants={fadeInUp}>
                     <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-white/5 hover:border-gray-600/30 hover:scale-[1.02] rounded-2xl overflow-hidden">
-                      {/* Project Image */}
-                      {project.image && (
-                        <div className="w-full h-48 bg-gray-900/40 flex items-center justify-center overflow-hidden">
-                          <img
-                            src={project.image}
-                            alt={project.title}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.src = "/images/placeholder.svg";
-                              target.onerror = null;
-                            }}
-                          />
-                        </div>
-                      )}
                       <CardHeader className="p-4 sm:p-6">
                         <div className="flex justify-between items-start mb-3 sm:mb-4">
                           <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
