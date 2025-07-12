@@ -94,7 +94,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     setLoading(true)
 
     try {
-      let imageUrl = formData.image
+      let imageUrl = ""
 
       // Upload image if selected
       if (selectedFile) {
@@ -111,8 +111,8 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         setUploading(false)
       }
 
-      // Save project data with Firebase Storage URL
-      const projectData = { ...formData, image: imageUrl || "" }
+      // Save project data with Firebase Storage URL or empty string
+      const projectData = { ...formData, image: imageUrl }
       await addProject(projectData)
       toast.success("🎉 Project added successfully!")
 
