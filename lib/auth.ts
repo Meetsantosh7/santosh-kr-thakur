@@ -1,25 +1,24 @@
-
-const ADMIN_PASSWORD_HASH = "e2e6e2b1e3e3e6e8e6e2e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6"; // Replace with actual hash
+const ADMIN_PASSWORD_HASH = "15e24a16abfc4eef5faeb806e903f78b180b07580f80030d1e4e2205ccb6a7a9"; // SHA-256 for "skt1917"
 
 async function hashPassword(password: string): Promise<string> {
+  console.log("Hashing password:", password); // Debug log
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
   const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-  return Array.from(new Uint8Array(hashBuffer))
-    .map(b => b.toString(16).padStart(2, '0'))
-    .join('');
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  console.log("Generated hash:", hashHex); // Debug log
+  return hashHex;
 }
 
-export const login = (password: string): boolean | Promise<boolean> => {
-  // Because hashing is async, return a Promise
-  return hashPassword(password).then(hash => {
-    if (hash === ADMIN_PASSWORD_HASH) {
-      localStorage.setItem("adminAuth", "true");
-      return true;
-    }
-    return false;
-  });
+export const login = async (password: string): Promise<boolean> => {
+  if (password === "skt1917") {
+    localStorage.setItem("adminAuth", "true");
+    return true;
+  }
+  return false;
 };
+
 
 export const logout = (): void => {
   localStorage.removeItem("adminAuth");

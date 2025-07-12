@@ -1,9 +1,13 @@
-import { type NextRequest, NextResponse } from "next/server"
-import { writeFile, mkdir } from "fs/promises"
-import { join } from "path"
-import { existsSync } from "fs"
+import { NextResponse } from "next/server"
+import cloudinary from "cloudinary"
 
-export async function POST(request: NextRequest) {
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+})
+
+export async function POST(request: Request) {
   try {
     const formData = await request.formData()
     const file = formData.get("image") as File
@@ -22,30 +26,26 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "File size must be less than 5MB" }, { status: 400 })
     }
 
-    // Create unique filename
-    const timestamp = Date.now()
-    const originalName = file.name.replace(/[^a-zA-Z0-9.-]/g, "_")
-    const filename = `${timestamp}_${originalName}`
+    // Convert file to buffer
+    const arrayBuffer = await file.arrayBuffer()
+    const buffer = Buffer.from(arrayBuffer)
 
-    // Ensure the projects directory exists
-    const projectsDir = join(process.cwd(), "public", "projects")
-    if (!existsSync(projectsDir)) {
-      await mkdir(projectsDir, { recursive: true })
-    }
-
-    // Convert file to buffer and save
-    const bytes = await file.arrayBuffer()
-    const buffer = Buffer.from(bytes)
-    const filepath = join(projectsDir, filename)
-
-    await writeFile(filepath, buffer)
-
-    // Return the public URL path
-    const imagePath = `/projects/${filename}`
+    // Upload to Cloudinary
+    const uploadResult = await new Promise<any>((resolve, reject) => {
+      cloudinary.v2.uploader
+        .upload_stream(
+          { folder: "projects" },
+          (error, result) => {
+            if (error) reject(error)
+            else resolve(result)
+          }
+        )
+        .end(buffer)
+    })
 
     return NextResponse.json({
       success: true,
-      imagePath,
+      imagePath: uploadResult.secure_url,
       message: "Image uploaded successfully",
     })
   } catch (error) {

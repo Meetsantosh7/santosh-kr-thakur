@@ -19,9 +19,10 @@ const AdminLogin: React.FC<AdminLoginProps> = ({ onLogin }) => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    
+
     try {
-      if (login(password)) {
+      const success = await login(password); // Await the Promise!
+      if (success) {
         onLogin();
       } else {
         setError('Invalid password. Please try again.');
