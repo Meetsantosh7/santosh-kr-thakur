@@ -8,8 +8,9 @@ import {
   query,
   orderBy 
 } from "firebase/firestore";
-import { db } from "./firebase";
-import { Project, ProjectFormData } from "@/types/project";
+import { db } from "./firebase"
+import type { ProjectFormData } from "@/types/project";
+import type { Project } from "@/types/project";
 import { Github, ExternalLink } from "lucide-react";
 
 export const addProject = async (projectData: ProjectFormData): Promise<void> => {
