@@ -12,7 +12,7 @@ export interface Project {
 export interface ProjectLink {
   type: string;
   url: string;
-  icon?: any; // Made optional
+  icon?: any; 
 }
 
 export interface ProjectFormData {
