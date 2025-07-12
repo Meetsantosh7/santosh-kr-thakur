@@ -77,9 +77,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
       const url = await getDownloadURL(storageRef)
       return url
     } catch (error) {
-      // Log the error for debugging
       console.error("Firebase upload error:", error)
-      // Optionally, show a toast or rethrow for higher-level handling
       throw error
     }
   }
@@ -96,7 +94,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     setLoading(true)
 
     try {
-      let imageUrl = formData.image // default to existing image (if any)
+      let imageUrl = formData.image
 
       // Upload image if selected
       if (selectedFile) {
@@ -106,7 +104,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
           toast.success("✅ Image uploaded successfully!")
         } catch (error) {
           toast.error("❌ Failed to upload image")
-          console.error("Image upload error:", error)
           setLoading(false)
           setUploading(false)
           return
@@ -114,7 +111,7 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         setUploading(false)
       }
 
-      // Save project data
+      // Save project data with Firebase Storage URL
       const projectData = { ...formData, image: imageUrl || "" }
       await addProject(projectData)
       toast.success("🎉 Project added successfully!")
@@ -129,13 +126,11 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         githubUrl: "",
         liveUrl: "",
       })
-
       setSelectedFile(null)
       setImagePreview(null)
       if (fileInputRef.current) {
         fileInputRef.current.value = ""
       }
-
       onProjectAdded()
     } catch (error) {
       toast.error("❌ Failed to add project. Please try again.")
