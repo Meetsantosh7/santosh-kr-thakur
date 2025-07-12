@@ -1,7 +1,6 @@
 
 const ADMIN_PASSWORD_HASH = "e2e6e2b1e3e3e6e8e6e2e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6e2e6"; // Replace with actual hash
 
-// Utility to hash a string using SHA-256
 async function hashPassword(password: string): Promise<string> {
   const encoder = new TextEncoder();
   const data = encoder.encode(password);
