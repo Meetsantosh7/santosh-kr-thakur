@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyBm4Amg7LvY_977oNkV33t0coxoPpp6V7w",
   authDomain: "contact-us-form-3e89d.firebaseapp.com",
   projectId: "contact-us-form-3e89d",
-  storageBucket: "contact-us-form-3e89d.firebasestorage.app",
+  storageBucket: "contact-us-form-3e89d.appspot.com", // <-- FIXED HERE
   messagingSenderId: "588730014261",
   appId: "1:588730014261:web:d99b4627a4de45fdf3af7c"
 };

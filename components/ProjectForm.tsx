@@ -70,51 +70,33 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     }
   }
 
+  // Uploads image and returns the download URL
   async function uploadImageToFirebase(file: File): Promise<string> {
-    try {
-      const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`)
-      await uploadBytes(storageRef, file)
-      const url = await getDownloadURL(storageRef)
-      return url
-    } catch (error) {
-      console.error("Firebase upload error:", error)
-      throw error
-    }
+    const storageRef = ref(storage, `projects/${file.name}-${Date.now()}`);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef); // Always use this URL!
+    return url;
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
     // Validate required fields
     if (!formData.title.trim() || !formData.description.trim() || !formData.technologies.trim()) {
-      toast.error("Please fill in all required fields")
-      return
+      toast.error("Please fill in all required fields");
+      return;
     }
 
-    setLoading(true)
+    setLoading(true);
 
     try {
-      let imageUrl = ""
-
-      // Upload image if selected
+      let imageUrl = "";
       if (selectedFile) {
-        setUploading(true)
-        try {
-          imageUrl = await uploadImageToFirebase(selectedFile)
-          toast.success("✅ Image uploaded successfully!")
-        } catch (error) {
-          toast.error("❌ Failed to upload image")
-          setLoading(false)
-          setUploading(false)
-          return
-        }
-        setUploading(false)
+        imageUrl = await uploadImageToFirebase(selectedFile); // This is the ONLY URL to save!
       }
-
-      // Save project data with Firebase Storage URL or empty string
-      const projectData = { ...formData, image: imageUrl }
-      await addProject(projectData)
-      toast.success("🎉 Project added successfully!")
+      const projectData = { ...formData, image: imageUrl };
+      await addProject(projectData);
+      toast.success("🎉 Project added successfully!");
 
       // Reset form
       setFormData({
@@ -125,18 +107,18 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         image: "",
         githubUrl: "",
         liveUrl: "",
-      })
-      setSelectedFile(null)
-      setImagePreview(null)
+      });
+      setSelectedFile(null);
+      setImagePreview(null);
       if (fileInputRef.current) {
-        fileInputRef.current.value = ""
+        fileInputRef.current.value = "";
       }
-      onProjectAdded()
+      onProjectAdded();
     } catch (error) {
-      toast.error("❌ Failed to add project. Please try again.")
-      console.error("Error adding project:", error)
+      toast.error("❌ Failed to add project. Please try again.");
+      console.error("Error adding project:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
