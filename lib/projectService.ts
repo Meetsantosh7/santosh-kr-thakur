@@ -46,7 +46,7 @@ export const addProject = async (projectData: ProjectFormData): Promise<void> =>
     throw error;
   }
 };
-
+//dadad
 export const getProjects = async (): Promise<Project[]> => {
   try {
     const q = query(collection(db, "projects"), orderBy("createdAt", "desc"));
