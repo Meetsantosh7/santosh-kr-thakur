@@ -55,7 +55,7 @@ export const getProjects = async (): Promise<Project[]> => {
     
     querySnapshot.forEach((doc) => {
       const data = doc.data();
-      const links = data.links.map((link: any) => {
+      const links = (data.links ?? []).map((link: any) => {
         let icon;
         if (link.type === "GitHub") {
           icon = Github;
