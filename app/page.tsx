@@ -17,6 +17,7 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  Loader2,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -25,8 +26,8 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { useState, useEffect } from "react"
 import ClientOnly from "./components/ClientOnly"
-import { db } from "@/lib/firebase"
-import { collection, addDoc, serverTimestamp } from "firebase/firestore"
+import db from "@/lib/firebase"
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore"
 import { useProjects } from "@/hooks/useProjects"
 
 const fadeInUp = {
@@ -144,117 +145,6 @@ const experiences = [
   },
 ]
 
-const projects = [
-  {
-    id: 1,
-    title: "E-Commerce Platform",
-    description:
-      "Full-stack e-commerce solution with React and Laravel featuring real-time inventory management, payment integration, and admin dashboard",
-    technologies: ["React", "Laravel", "MySQL", "Bootstrap", "Stripe", "Redis"],
-    status: "Completed",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Live Demo", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 2,
-    title: "Smart India Hackathon Solution",
-    description:
-      "Award-winning application for real-world problem solving in healthcare sector with AI-powered diagnostics and telemedicine features",
-    technologies: ["Angular", "PHP", "Firebase", "Material-UI", "TensorFlow", "WebRTC"],
-    status: "Award Winner",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "News Article", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 3,
-    title: "Portfolio Website",
-    description:
-      "Modern responsive portfolio website built with React.js featuring interactive animations, smooth scrolling, and dynamic content management",
-    technologies: ["React", "Next.js", "Tailwind CSS", "Framer Motion", "TypeScript"],
-    status: "Live",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Live", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 4,
-    title: "Hotel Reservation Website",
-    description:
-      "Comprehensive hotel booking platform with advanced search filters, real-time availability, secure payment processing, and user-friendly reservation management",
-    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "MongoDB", "Stripe"],
-    status: "Completed",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Live Demo", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 5,
-    title: "University Website",
-    description:
-      "Modern university portal with course management, student information system, faculty profiles, and interactive campus virtual tour",
-    technologies: ["React.js", "Tailwind CSS", "Node.js", "Express", "PostgreSQL"],
-    status: "Completed", 
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Live Demo", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 6,
-    title: "Social Media Website",
-    description:
-      "Interactive social networking platform with user profiles, real-time messaging, photo sharing, and dynamic feed with engagement features",
-    technologies: ["HTML5", "CSS3", "JavaScript", "PHP", "MySQL"],
-    status: "Completed",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Live Demo", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 7,
-    title: "Real Estate Management System",
-    description:
-      "Comprehensive property management platform with client portal, property listings, and automated reporting features",
-    technologies: ["PHP", "Laravel", "MySQL", "Bootstrap", "jQuery"],
-    status: "Completed",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Demo", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 8,
-    title: "Task Management App",
-    description:
-      "Team collaboration tool with real-time updates, project tracking, and performance analytics for enhanced productivity",
-    technologies: ["React", "Node.js", "MongoDB", "Socket.io", "Material-UI"],
-    status: "Live",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Live", url: "#", icon: ExternalLink },
-    ],
-  },
-  {
-    id: 9,
-    title: "Restaurant Ordering System",
-    description:
-      "Digital menu and ordering platform with payment integration, order tracking, and inventory management for restaurants",
-    technologies: ["React", "Laravel", "MySQL", "Stripe API", "Bootstrap"],
-    status: "Completed",
-    links: [
-      { type: "GitHub", url: "https://github.com/Meetsantosh7", icon: Github },
-      { type: "Demo", url: "#", icon: ExternalLink },
-    ],
-  },
-]
-
 const skillsData = [
   {
     category: "Frontend",
@@ -301,7 +191,7 @@ const education = [
     id: 1,
     degree: "Master of Computer Applications (MCA)",
     institution: "Chandigarh University",
-    year: "2025 - 2027",
+    year: "Pursuing",
     grade: "Pursuing",
     description: "Advanced studies in Computer Applications, Software Development, and Modern Technologies",
   },
@@ -309,26 +199,26 @@ const education = [
     id: 2,
     degree: "Bachelor of Computer Applications (BCA)",
     institution: "Kendriya Vidyalaya Masjid Moth Saidha Nagar",
-    year: "Oct 2021 - Sep 2024",
-    grade: "First Class",
+    year: "2019 - 2022",
+    grade: "8.94 (CGPA)",
     description: "Comprehensive study of Computer Applications, Programming Languages, and Software Development with focus on practical implementation",
   },
   {
     id: 3,
     degree: "Class 12th (Science Stream)",
     institution: "Kendriya Vidyalaya Masjid Moth Saidha Nagar",
-    year: "Apr 2018 - Apr 2019",
+    year: "2018",
     grade: "75.2%",
     description: "Science Stream with Physics, Chemistry, Mathematics, and Computer Science",
   },
-  {
-    id: 4,
-    degree: "Class 10th",
-    institution: "Kendriya Vidyalaya Masjid Moth Saidha Nagar",
-    year: "Apr 2016 - Apr 2017",
-    grade: "79.8%",
-    description: "Secondary education with strong foundation in Mathematics, Science, and Computer Applications",
-  },
+  // {
+  //   id: 4,
+  //   degree: "Class 10th",
+  //   institution: "Kendriya Vidyalaya Masjid Moth Saidha Nagar",
+  //   year: "Apr 2016 - Apr 2017",
+  //   grade: "79.8%",
+  //   description: "Secondary education with strong foundation in Mathematics, Science, and Computer Applications",
+  // },
 ]
 
 const navigationItems = [
@@ -423,7 +313,7 @@ function PortfolioContent() {
 
     try {
       // Add document to Firebase Firestore
-      await addDoc(collection(db, "contacts"), {
+      await addDoc(collection(getFirestore(db), "contacts"), {
         name: formData.name.trim(),
         email: formData.email.trim(),
         message: formData.message.trim(),
@@ -488,6 +378,72 @@ function PortfolioContent() {
   }, [])
 
   const { projects, loading: projectsLoading, error: projectsError } = useProjects();
+
+  const customProjects = [
+    {
+      id: "hostel-reservation",
+      title: "Hostel Reservation System",
+      description:
+        "A modern hostel reservation platform built with Next.js and Tailwind CSS. Users can browse hostels, check availability, and book rooms seamlessly. The project features authentication, responsive UI, and real-time updates.",
+      status: "Live",
+      technologies: ["Next.js", "Tailwind CSS", "Git", "Vercel"],
+      image: "/images/hotel_landingimg.png",
+      links: [
+        {
+          type: "GitHub",
+          url: "https://github.com/Meetsantosh7/hotel-reservation",
+          icon: Github,
+        },
+        {
+          type: "Website",
+          url: "https://hotel-reservation-pi.vercel.app/",
+          icon: ExternalLink,
+        },
+      ],
+    },
+    {
+      id: "fitness-tracker",
+      title: "Fitness Tracker",
+      description:
+        "A comprehensive fitness tracking application built with Next.js and TypeScript. Users can track workouts, monitor progress, set fitness goals, and view detailed analytics. Features modern UI design with responsive layouts and real-time data visualization.",
+      status: "Live",
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Git", "Vercel"],
+      image: "/images/fitness_tracker.png",
+      links: [
+        {
+          type: "GitHub",
+          url: "https://github.com/Meetsantosh7/fitness-tracker",
+          icon: Github,
+        },
+        {
+          type: "Website",
+          url: "https://fitness-tracker-nine-liart.vercel.app/",
+          icon: ExternalLink,
+        },
+      ],
+    },
+    {
+      id: "food-express",
+      title: "FoodExpress",
+      description:
+        "A modern food delivery website built with responsive design and user-friendly interface. Users can browse restaurants, view menus, place orders, and track deliveries. Features include real-time order tracking, secure payment integration, and seamless user experience.",
+      status: "Live",
+      technologies: ["React.js", "HTML5", "CSS3", "JavaScript", "Git", "Vercel"],
+      image: "/images/foodlanding_img.png",
+      links: [
+        {
+          type: "GitHub",
+          url: "https://github.com/Meetsantosh7/foodExpress",
+          icon: Github,
+        },
+        {
+          type: "Website",
+          url: "https://food-express-sigma.vercel.app/",
+          icon: ExternalLink,
+        },
+      ],
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-x-hidden" suppressHydrationWarning>
@@ -1034,79 +990,168 @@ function PortfolioContent() {
                 </p>
               </motion.div>
 
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-                {projects.map((project, index) => (
-                  <motion.div key={project.id} variants={fadeInUp}>
-                    <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-white/5 hover:border-gray-600/30 hover:scale-[1.02] rounded-2xl overflow-hidden">
-                      {/* Project Image */}
-                      {project.image && (
-                        <div className="w-full h-48 bg-gray-900/40 flex items-center justify-center overflow-hidden">
-                          <img
-                            src={project.image}
-                            alt={project.title}
-                            className="w-full h-full object-cover"
-                            onError={(e) => {
-                              const target = e.target as HTMLImageElement;
-                              target.src = "/images/placeholder.svg";
-                              target.onerror = null;
-                            }}
-                          />
-                        </div>
-                      )}
-                      <CardHeader className="p-4 sm:p-6">
-                        <div className="flex justify-between items-start mb-3 sm:mb-4">
-                          <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
-                            {project.title}
-                          </CardTitle>
-                          <Badge
-                            className={`${
-                              project.status === "Completed"
-                                ? "bg-green-500/20 text-green-300 border-green-500/30"
-                                : project.status === "Live"
-                                  ? "bg-teal-500/20 text-teal-300 border-teal-500/30"
-                                  : project.status === "Award Winner"
-                                  ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-                                  : "bg-blue-500/20 text-blue-300 border-blue-500/30"
-                            } backdrop-blur-sm text-xs whitespace-nowrap rounded-full px-3 py-1`}
-                          >
-                            {project.status}
-                          </Badge>
-                        </div>
-                        <CardDescription className="text-gray-300 leading-relaxed text-sm sm:text-base">
-                          {project.description}
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="p-4 sm:p-6 pt-0">
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-                          {project.technologies.map((tech) => (
+              {projectsLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <Loader2 className="h-8 w-8 animate-spin text-teal-400" />
+                  <span className="ml-3 text-gray-300">Loading projects...</span>
+                </div>
+              ) : projectsError ? (
+                <div className="text-center py-8 text-red-400">{projectsError}</div>
+              ) : (
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
+                  {/* Render custom project first */}
+                  {customProjects.map((project, index) => (
+                    <motion.div key={project.id} variants={fadeInUp}>
+                      <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-white/5 hover:border-gray-600/30 hover:scale-[1.02] rounded-2xl overflow-hidden">
+                        {/* Project Image */}
+                        {project.image && (
+                          <div className="w-full h-48 bg-gray-900/40 flex items-center justify-center overflow-hidden">
+                            <img
+                              src={project.image}
+                              alt={project.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                console.log(`Failed to load image: ${project.image}`);
+                                const target = e.target as HTMLImageElement;
+                                // Try alternative paths or use a placeholder
+                                if (project.image === "/images/hostel-reservation.png") {
+                                  target.src = "/images/hostel-reservation.jpg"; // Try .jpg extension
+                                } else if (project.image === "/images/hostel-reservation.jpg") {
+                                  target.src = "/images/placeholder.svg"; // Fallback to placeholder
+                                }
+                                target.onerror = null; // Prevent infinite loop
+                              }}
+                              onLoad={() => {
+                                console.log(`Successfully loaded image: ${project.image}`);
+                              }}
+                            />
+                          </div>
+                        )}
+                        <CardHeader className="p-4 sm:p-6">
+                          <div className="flex justify-between items-start mb-3 sm:mb-4">
+                            <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
+                              {project.title}
+                            </CardTitle>
                             <Badge
-                              key={tech}
-                              variant="outline"
-                              className="border-gray-600/40 text-gray-400 bg-gray-800/30 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 hover:text-teal-300 transition-all duration-300 rounded-full px-2 py-1"
+                              className={`${
+                                project.status === "Completed"
+                                  ? "bg-green-500/20 text-green-300 border-green-500/30"
+                                  : project.status === "Live"
+                                    ? "bg-teal-500/20 text-teal-300 border-teal-500/30"
+                                    : "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                              } backdrop-blur-sm text-xs whitespace-nowrap rounded-full px-3 py-1`}
                             >
-                              {tech}
+                              {project.status}
                             </Badge>
-                          ))}
-                        </div>
-                        <div className="flex flex-wrap gap-3 sm:gap-4">
-                          {project.links.map((link, idx) => (
-                            <Button
-                              key={idx}
-                              size="sm"
-                              variant="ghost"
-                              className="text-gray-400 hover:text-teal-400 p-0 h-auto group/btn text-xs sm:text-sm"
-                              onClick={() => window.open(link.url, "_blank")}
+                          </div>
+                          <CardDescription className="text-gray-300 leading-relaxed text-sm sm:text-base">
+                            {project.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-4 sm:p-6 pt-0">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                            {project.technologies.map((tech: string) => (
+                              <Badge
+                                key={tech}
+                                variant="outline"
+                                className="border-gray-600/40 text-gray-400 bg-gray-800/30 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 hover:text-teal-300 transition-all duration-300 rounded-full px-2 py-1"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                          <div className="flex flex-wrap gap-3 sm:gap-4">
+                            {project.links.map((link: any, idx: number) => (
+                              <Button
+                                key={idx}
+                                size="sm"
+                                variant="ghost"
+                                className="text-gray-400 hover:text-teal-400 p-0 h-auto group/btn text-xs sm:text-sm"
+                                onClick={() => window.open(link.url, "_blank")}
+                              >
+                                {link.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />}
+                                {link.type}
+                              </Button>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                  {/* Render dynamic projects */}
+                  {projects.map((project, index) => (
+                    <motion.div key={project.id} variants={fadeInUp}>
+                      <Card className="bg-white/10 border border-gray-700/20 backdrop-blur-xl hover:bg-white/20 transition-all duration-500 group h-full hover:shadow-2xl hover:shadow-white/5 hover:border-gray-600/30 hover:scale-[1.02] rounded-2xl overflow-hidden">
+                        {/* Project Image */}
+                        {project.image && (
+                          <div className="w-full h-48 bg-gray-900/40 flex items-center justify-center overflow-hidden">
+                            <img
+                              src={project.image}
+                              alt={project.title}
+                              className="w-full h-full object-cover"
+                              onError={(e) => {
+                                const target = e.target as HTMLImageElement;
+                                target.src = "/images/placeholder.svg";
+                                target.onerror = null;
+                              }}
+                            />
+                          </div>
+                        )}
+                        <CardHeader className="p-4 sm:p-6">
+                          <div className="flex justify-between items-start mb-3 sm:mb-4">
+                            <CardTitle className="text-white group-hover:text-teal-300 transition-colors duration-300 text-base sm:text-lg leading-tight pr-2">
+                              {project.title}
+                            </CardTitle>
+                            <Badge
+                              className={`${
+                                project.status === "Completed"
+                                  ? "bg-green-500/20 text-green-300 border-green-500/30"
+                                  : project.status === "Live"
+                                    ? "bg-teal-500/20 text-teal-300 border-teal-500/30"
+                                    : project.status === "Award Winner"
+                                    ? "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+                                    : "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                              } backdrop-blur-sm text-xs whitespace-nowrap rounded-full px-3 py-1`}
                             >
-                              <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
-                              {link.type}
-                            </Button>
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                  </motion.div>
-                ))}
-              </div>
+                              {project.status}
+                            </Badge>
+                          </div>
+                          <CardDescription className="text-gray-300 leading-relaxed text-sm sm:text-base">
+                            {project.description}
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="p-4 sm:p-6 pt-0">
+                          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
+                            {project.technologies.map((tech: string) => (
+                              <Badge
+                                key={tech}
+                                variant="outline"
+                                className="border-gray-600/40 text-gray-400 bg-gray-800/30 backdrop-blur-sm text-xs hover:bg-teal-600/20 hover:border-teal-500/50 hover:text-teal-300 transition-all duration-300 rounded-full px-2 py-1"
+                              >
+                                {tech}
+                              </Badge>
+                            ))}
+                          </div>
+                          <div className="flex flex-wrap gap-3 sm:gap-4">
+                            {project.links.map((link: any, idx: number) => (
+                              <Button
+                                key={idx}
+                                size="sm"
+                                variant="ghost"
+                                className="text-gray-400 hover:text-teal-400 p-0 h-auto group/btn text-xs sm:text-sm"
+                                onClick={() => window.open(link.url, "_blank")}
+                              >
+                                {link.icon && <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />}
+                                {link.type}
+                              </Button>
+                            ))}
+                          </div>
+                        </CardContent>
+                      </Card>
+                    </motion.div>
+                  ))}
+                </div>
+              )}
             </motion.div>
           </div>
         </section>
@@ -1231,10 +1276,10 @@ function PortfolioContent() {
                             <div className="flex flex-col gap-3">
                               {/* Mobile Date Badge */}
                               <motion.div
-                                className="sm:hidden bg-white/10 border border-gray-700/20 rounded-full px-3 py-1 backdrop-blur-sm self-start shadow-lg"
+                                className="sm:hidden bg-white/10 border border-gray-700/20 rounded-full px-3 py-1 backdrop-blur-sm shadow-lg"
                                 initial={{ opacity: 0, y: 10 }}
                                 whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: index * 0.2 + 0.3 }}
+                                transition={{ delay: index * 0.2 + 0.4 }}
                                 viewport={{ once: true }}
                               >
                                 <span className="text-xs text-teal-200 font-semibold">
@@ -1268,7 +1313,7 @@ function PortfolioContent() {
                             </div>
                           </CardHeader>
                           
-                          <CardContent className="p-4 sm:p-6 pt-0 relative z-10">
+                          <CardContent className="p-4 sm:p-6 pt-0">
                             <ul className="space-y-3 text-gray-200 mb-4 sm:mb-6 text-sm sm:text-base">
                               {exp.responsibilities.slice(0, 3).map((responsibility, idx) => (
                                 <motion.li 
@@ -1279,7 +1324,11 @@ function PortfolioContent() {
                                   transition={{ delay: index * 0.2 + idx * 0.1 + 0.4 }}
                                   viewport={{ once: true }}
                                 >
-                                 </motion.li>
+                                  <span className="w-1.5 h-1.5 bg-teal-400 rounded-full mt-2 mr-3 flex-shrink-0 group-hover/item:bg-cyan-400 transition-colors duration-200"></span>
+                                  <span className="leading-relaxed group-hover/item:text-white transition-colors duration-200">
+                                    {responsibility}
+                                  </span>
+                                </motion.li>
                               ))}
                             </ul>
                             
@@ -1361,15 +1410,15 @@ function PortfolioContent() {
                           <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-white rounded-full animate-pulse" />
                         </motion.div>
                         
-                        {/* Date Badge - Desktop only */}
+                        {/* Date Badge - Desktop */}
                         <motion.div
-                          className="hidden sm:block absolute top-12 left-1/2 transform -translate-x-1/2 bg-white/10 border border-gray-700/20 rounded-full px-3 lg:px-4 py-1.5 lg:py-2 backdrop-blur-sm whitespace-nowrap shadow-lg z-30"
+                          className="hidden sm:block absolute -bottom-12 left-1/2 transform -translate-x-1/2 bg-white/10 border border-gray-700/20 rounded-full px-4 py-2 backdrop-blur-sm shadow-lg"
                           initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.2 + 0.3 }}
                           viewport={{ once: true }}
                         >
-                          <span className="text-sm text-teal-200 font-semibold">
+                          <span className="text-xs sm:text-sm text-teal-200 font-semibold whitespace-nowrap">
                             {edu.year}
                           </span>
                         </motion.div>
@@ -1510,6 +1559,7 @@ function PortfolioContent() {
                         
                         {/* Status Messages */}
                         {submitStatus === "success" && (
+                         
                           <motion.div
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}

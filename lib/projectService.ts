@@ -8,7 +8,9 @@ import {
   query,
   orderBy 
 } from "firebase/firestore";
-import { db } from "./firebase";
+import { getFirestore } from "firebase/firestore";
+import app from "./firebase";
+const db = getFirestore(app);
 import { Project, ProjectFormData } from "@/types/project";
 import { Github, ExternalLink } from "lucide-react";
 

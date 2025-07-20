@@ -7,13 +7,19 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import type { ProjectFormData } from "@/types/project"
-import { addProject } from "@/lib/projectService"
 import { toast } from "sonner"
-import { Plus, Loader2, Upload, X, ImageIcon } from "lucide-react"
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage"
-import app from "@/lib/firebase"
-const storage = getStorage(app)
+import { Plus, Loader2, Upload, X, ImageIcon, AlertCircle } from "lucide-react"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+
+interface ProjectFormData {
+  title: string
+  description: string
+  technologies: string
+  status: string
+  image: string
+  githubUrl: string
+  liveUrl: string
+}
 
 interface ProjectFormProps {
   onProjectAdded: () => void
@@ -34,10 +40,13 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
   const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
+    setUploadError(null) // Clear previous errors
+
     if (file) {
       // Validate file type
       if (!file.type.startsWith("image/")) {
@@ -66,19 +75,41 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
     setSelectedFile(null)
     setImagePreview(null)
     setFormData({ ...formData, image: "" })
+    setUploadError(null)
     if (fileInputRef.current) {
       fileInputRef.current.value = ""
     }
   }
 
-  const uploadImageToFirebase = async (file: File): Promise<string> => {
-    const storageRef = ref(storage, `project-images/${Date.now()}-${file.name}`)
-    await uploadBytes(storageRef, file)
-    return await getDownloadURL(storageRef) // <-- This is the URL you must use!
+  const uploadImage = async (file: File): Promise<string> => {
+    const formDataUpload = new FormData()
+    formDataUpload.append("file", file)
+
+    const response = await fetch("/api/upload", {
+      method: "POST",
+      body: formDataUpload,
+    })
+
+    const result = await response.json()
+
+    if (!response.ok) {
+      throw new Error(result.error || `HTTP error! status: ${response.status}`)
+    }
+
+    return result.url
+  }
+
+  // Mock addProject function - replace with your actual implementation
+  const addProject = async (projectData: ProjectFormData) => {
+    // Simulate API call
+    await new Promise((resolve) => setTimeout(resolve, 1000))
+    console.log("Project data:", projectData)
+    // Your actual project saving logic here
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    setUploadError(null)
 
     // Validate required fields
     if (!formData.title.trim() || !formData.description.trim() || !formData.technologies.trim()) {
@@ -95,12 +126,12 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
       if (selectedFile) {
         setUploading(true)
         try {
-          imagePath = await uploadImageToFirebase(selectedFile)
-          console.log("Firebase image URL:", imagePath) // <-- Add this
-          setImagePreview(imagePath) // This is the Firebase URL!
+          imagePath = await uploadImage(selectedFile)
           toast.success("✅ Image uploaded successfully!")
         } catch (error) {
-          toast.error("❌ Failed to upload image to Firebase")
+          const errorMessage = error instanceof Error ? error.message : "Failed to upload image"
+          setUploadError(errorMessage)
+          toast.error(`❌ ${errorMessage}`)
           setLoading(false)
           setUploading(false)
           return
@@ -108,9 +139,10 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         setUploading(false)
       }
 
-      // Save project data with the Firebase image URL
+      // Save project data
       const projectData = { ...formData, image: imagePath }
       await addProject(projectData)
+
       toast.success("🎉 Project added successfully!")
 
       // Reset form
@@ -123,16 +155,17 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         githubUrl: "",
         liveUrl: "",
       })
-
       setSelectedFile(null)
       setImagePreview(null)
+      setUploadError(null)
       if (fileInputRef.current) {
         fileInputRef.current.value = ""
       }
 
       onProjectAdded()
     } catch (error) {
-      toast.error("❌ Failed to add project. Please try again.")
+      const errorMessage = error instanceof Error ? error.message : "Failed to add project"
+      toast.error(`❌ ${errorMessage}`)
       console.error("Error adding project:", error)
     } finally {
       setLoading(false)
@@ -151,6 +184,13 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
         </CardDescription>
       </CardHeader>
       <CardContent>
+        {uploadError && (
+          <Alert className="mb-6 border-red-500/50 bg-red-500/10">
+            <AlertCircle className="h-4 w-4 text-red-400" />
+            <AlertDescription className="text-red-300">{uploadError}</AlertDescription>
+          </Alert>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Project Title */}
           <div>
@@ -208,7 +248,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
           {/* Project Image */}
           <div>
             <label className="text-sm font-medium text-gray-300 mb-2 block">Project Image (Optional)</label>
-
             {!imagePreview ? (
               <div
                 onClick={() => fileInputRef.current?.click()}
@@ -252,7 +291,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
                 </div>
               </div>
             )}
-
             <input ref={fileInputRef} type="file" accept="image/*" onChange={handleFileSelect} className="hidden" />
           </div>
 
@@ -267,7 +305,6 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ onProjectAdded }) => {
                 className="bg-gray-800/50 border-gray-600/50 text-white placeholder-gray-400 focus:border-teal-500"
               />
             </div>
-
             <div>
               <label className="text-sm font-medium text-gray-300 mb-2 block">Live Demo URL (Optional)</label>
               <Input

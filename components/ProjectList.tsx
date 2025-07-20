@@ -156,6 +156,11 @@ const ProjectList: React.FC<ProjectListProps> = ({ projects, loading, onProjectD
                     ))}
                   </div>
                 )}
+                <img
+                  src={project.image || "/placeholder.svg"}
+                  alt={project.title}
+                  className="h-32 w-32 object-cover rounded"
+                />
               </div>
             ))}
           </div>
