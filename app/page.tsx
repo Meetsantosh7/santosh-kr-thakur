@@ -286,14 +286,14 @@ const skillsData = [
       { name: "PHP", level: 92, icon: "🐘" },
       { name: "Laravel", level: 90, icon: "🔴" },
       { name: "Node.js", level: 85, icon: "💚" },
-      { name: "Express.js", level: 82, icon: "⚡" },
+      // { name: "Express.js", level: 82, icon: "⚡" },
     ],
   },
   {
     category: "Databases",
     skills: [
       { name: "MySQL", level: 90, icon: "🐬" },
-      { name: "MongoDB", level: 78, icon: "🍃" },
+      // { name: "MongoDB", level: 78, icon: "🍃" },
       { name: "Firebase", level: 85, icon: "🔥" },
     ],
   },
