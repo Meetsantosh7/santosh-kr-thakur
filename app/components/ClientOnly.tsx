@@ -101,7 +101,9 @@ export default function ClientOnly({ children, fallback }: ClientOnlyProps) {
             <div className="relative">
               <div className="w-20 h-20 border-4 border-t-transparent border-teal-400 rounded-full animate-spin-slow"></div>
               <div className="absolute inset-0 w-20 h-20 border-4 border-r-transparent border-cyan-400 rounded-full animate-spin-slow" style={{ animationDirection: 'reverse', animationDuration: '2s' }}></div>
-              <div className="absolute inset-3 w-14 h-14 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full animate-pulse"></div>
+              <div className="absolute inset-3 w-14 h-14 bg-gradient-to-r from-teal-400 to-cyan-400 rounded-full animate-pulse flex items-center justify-center">
+                <span className="text-2xl text-white font-bold">&lt;/&gt;</span>
+              </div>
             </div>
           </div>
           
