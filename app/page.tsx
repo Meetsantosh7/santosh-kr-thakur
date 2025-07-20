@@ -34,12 +34,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useState, useEffect, createContext, useContext } from "react";
 import ClientOnly from "./components/ClientOnly";
+
 import db from "@/lib/firebase";
 import {
   getFirestore,
   collection,
   addDoc,
   serverTimestamp,
+  doc,
+  getDoc,
+  updateDoc,
+  increment,
+  setDoc,
 } from "firebase/firestore";
 import { useProjects } from "@/hooks/useProjects";
 
@@ -57,7 +63,25 @@ const useTheme = () => useContext(ThemeContext);
 // Theme Provider Component
 function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setTheme] = useState<"light" | "dark">("dark");
+  const [visitorCount, setVisitorCount] = useState<number>(0);
 
+useEffect(() => {
+  const updateVisitorCount = async () => {
+    const firestore = getFirestore(db);
+    const counterRef = doc(firestore, "visitors", "counter");
+    try {
+      // Try to increment
+      await updateDoc(counterRef, { count: increment(1) });
+    } catch (error) {
+      // If document doesn't exist, create it
+      await setDoc(counterRef, { count: 1 }, { merge: true });
+    }
+    // Get the updated count
+    const snapshot = await getDoc(counterRef);
+    setVisitorCount(snapshot.data()?.count ?? 0);
+  };
+  updateVisitorCount();
+}, []);
   useEffect(() => {
     const savedTheme = localStorage.getItem("portfolio-theme") as
       | "light"
@@ -372,6 +396,7 @@ function ThemeToggle() {
 function PortfolioContent() {
   const { theme } = useTheme();
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [visitorCount, setVisitorCount] = useState<number | null>(null);
 
   // SIH Images data
   const sihImages = [
@@ -652,6 +677,19 @@ function PortfolioContent() {
   };
 
   const themeClasses = getThemeClasses();
+
+  useEffect(() => {
+    const updateVisitorCount = async () => {
+      const firestore = getFirestore(db);
+      const counterRef = doc(firestore, "visitors", "counter");
+      // Increment the count atomically
+      await updateDoc(counterRef, { count: increment(1) });
+      // Get the updated count
+      const snapshot = await getDoc(counterRef);
+      setVisitorCount(snapshot.data()?.count ?? 0);
+    };
+    updateVisitorCount();
+  }, []);
 
   return (
     <div
@@ -1816,24 +1854,6 @@ function PortfolioContent() {
                       {/* Timeline Node - Desktop */}
                       <div className="absolute left-1/2 transform -translate-x-1/2 z-20 hidden sm:block">
                         <motion.div
-                          className={`w-8 h-8 sm:w-12 sm:h-12 bg-gradient-to-r ${
-                            themeClasses.accent
-                          } rounded-full border-4 ${
-                            theme === "light"
-                              ? "border-white"
-                              : "border-gray-900"
-                          } shadow-2xl flex items-center justify-center`}
-                          whileInView={{ scale: [0, 1.2, 1] }}
-                          transition={{ duration: 0.6, delay: index * 0.2 }}
-                          viewport={{ once: true }}
-                        >
-                          <div className="w-2 h-2 sm:w-3 sm:h-3 bg-white rounded-full animate-pulse" />
-                        </motion.div>
-
-                        {/* Date Badge - Desktop */}
-                        <motion.div
-                          className={`absolute -bottom-12 left-1/2 transform -translate-x-1/2 ${themeClasses.card} rounded-full px-4 py-2 backdrop-blur-sm shadow-lg`}
-                          initial={{ opacity: 0, y: 10 }}
                           whileInView={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.2 + 0.3 }}
                           viewport={{ once: true }}
@@ -2609,6 +2629,11 @@ function PortfolioContent() {
                 >
                   Software Developer
                 </p>
+                 {visitorCount !== null && (
+          <p className="text-xs sm:text-sm mt-2">
+            👀 Visitors: <b>{visitorCount}</b>
+          </p>
+        )}
               </div>
             </div>
 
