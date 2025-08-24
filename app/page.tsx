@@ -1525,260 +1525,270 @@ function PortfolioContent() {
                   {projectsError}
                 </div>
               ) : (
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-                  {/* Render custom project first */}
-                  {customProjects.map((project, index) => (
-                    <motion.div key={project.id} variants={fadeInUp}>
-                      <Card
-                        className={`${themeClasses.card} ${
-                          themeClasses.cardHover
-                        } backdrop-blur-xl transition-all duration-500 group h-full hover:shadow-2xl ${
-                          theme === "light"
-                            ? "hover:shadow-gray-200/20 hover:border-gray-400/30"
-                            : "hover:shadow-white/5 hover:border-gray-600/30"
-                        } hover:scale-[1.02] rounded-2xl overflow-hidden`}
-                      >
-                        {/* Project Image */}
-                        {project.image && (
-                          <div
-                            className={`w-full h-48 ${
-                              theme === "light"
-                                ? "bg-gray-200/40"
-                                : "bg-gray-900/40"
-                            } flex items-center justify-center overflow-hidden`}
-                          >
-                            <img
-                              src={project.image || "/placeholder.svg"}
-                              alt={project.title}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                console.log(
-                                  `Failed to load image: ${project.image}`
-                                );
-                                const target = e.target as HTMLImageElement;
-                                // Try alternative paths or use a placeholder
-                                if (
-                                  project.image ===
-                                  "/images/hostel-reservation.png"
-                                ) {
-                                  target.src = "/images/hostel-reservation.jpg"; // Try .jpg extension
-                                } else if (
-                                  project.image ===
-                                  "/images/hostel-reservation.jpg"
-                                ) {
-                                  target.src = "/images/placeholder.svg"; // Fallback to placeholder
-                                }
-                                target.onerror = null; // Prevent infinite loop
-                              }}
-                              onLoad={() => {
-                                console.log(
-                                  `Successfully loaded image: ${project.image}`
-                                );
-                              }}
-                            />
-                          </div>
-                        )}
-                        <CardHeader className="p-4 sm:p-6">
-                          <div className="flex justify-between items-start mb-3 sm:mb-4">
-                            <CardTitle
-                              className={`${themeClasses.text} group-hover:${
+                <div className="flex justify-center">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 lg:gap-6 max-w-5xl">
+                    {/* Render custom project first */}
+                    {customProjects.map((project, index) => (
+                      <motion.div key={project.id} variants={fadeInUp}>
+                        <Card
+                          className={`${themeClasses.card} ${
+                            themeClasses.cardHover
+                          } backdrop-blur-xl transition-all duration-500 group h-full hover:shadow-xl ${
+                            theme === "light"
+                              ? "hover:shadow-gray-200/20 hover:border-gray-400/30"
+                              : "hover:shadow-white/5 hover:border-gray-600/30"
+                          } hover:scale-[1.02] rounded-xl overflow-hidden`}
+                        >
+                          {/* Project Image */}
+                          {project.image && (
+                            <div
+                              className={`w-full h-32 sm:h-36 lg:h-40 ${
                                 theme === "light"
-                                  ? "text-teal-600"
-                                  : "text-teal-300"
-                              } transition-colors duration-300 text-base sm:text-lg leading-tight pr-2`}
+                                  ? "bg-gray-200/40"
+                                  : "bg-gray-900/40"
+                              } flex items-center justify-center overflow-hidden`}
                             >
-                              {project.title}
-                            </CardTitle>
-                            <Badge
-                              className={`${
-                                project.status === "Completed"
-                                  ? `${
-                                      theme === "light"
-                                        ? "bg-green-400/20 text-green-700 border-green-400/30"
-                                        : "bg-green-500/20 text-green-300 border-green-500/30"
-                                    }`
-                                  : project.status === "Live"
-                                  ? `${
-                                      theme === "light"
-                                        ? "bg-teal-400/20 text-teal-700 border-teal-400/30"
-                                        : "bg-teal-500/20 text-teal-300 border-teal-500/30"
-                                    }`
-                                  : `${
-                                      theme === "light"
-                                        ? "bg-blue-400/20 text-blue-700 border-blue-400/30"
-                                        : "bg-blue-500/20 text-blue-300 border-blue-500/30"
-                                    }`
-                              } backdrop-blur-sm text-xs whitespace-nowrap rounded-full px-3 py-1`}
-                            >
-                              {project.status}
-                            </Badge>
-                          </div>
-                          <CardDescription
-                            className={`${themeClasses.textSecondary} leading-relaxed text-sm sm:text-base`}
-                          >
-                            {project.description}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0">
-                          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-                            {project.technologies.map((tech: string) => (
-                              <Badge
-                                key={tech}
-                                variant="outline"
-                                className={`${
-                                  theme === "light"
-                                    ? "border-gray-400/40 text-gray-600 bg-gray-100/30 hover:bg-teal-500/20 hover:border-teal-400/50 hover:text-teal-700"
-                                    : "border-gray-600/40 text-gray-400 bg-gray-800/30 hover:bg-teal-600/20 hover:border-teal-500/50 hover:text-teal-300"
-                                } backdrop-blur-sm text-xs transition-all duration-300 rounded-full px-2 py-1`}
-                              >
-                                {tech}
-                              </Badge>
-                            ))}
-                          </div>
-                          <div className="flex flex-wrap gap-3 sm:gap-4">
-                            {project.links.map((link: any, idx: number) => (
-                              <Button
-                                key={idx}
-                                size="sm"
-                                variant="ghost"
-                                className={`${themeClasses.textMuted} hover:${
+                              <img
+                                src={project.image || "/placeholder.svg"}
+                                alt={project.title}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                onError={(e) => {
+                                  console.log(
+                                    `Failed to load image: ${project.image}`
+                                  );
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = "/images/placeholder.svg";
+                                  target.onerror = null;
+                                }}
+                              />
+                            </div>
+                          )}
+                          <CardHeader className="p-3 sm:p-4">
+                            <div className="flex justify-between items-start mb-2">
+                              <CardTitle
+                                className={`${themeClasses.text} group-hover:${
                                   theme === "light"
                                     ? "text-teal-600"
-                                    : "text-teal-400"
-                                } p-0 h-auto group/btn text-xs sm:text-sm`}
-                                onClick={() => window.open(link.url, "_blank")}
+                                    : "text-teal-300"
+                                } transition-colors duration-300 text-sm sm:text-base lg:text-lg leading-tight pr-1 line-clamp-1`}
                               >
-                                {link.icon && (
-                                  <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
-                                )}
-                                {link.type}
-                              </Button>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
-                  {/* Render dynamic projects */}
-                  {projects.map((project, index) => (
-                    <motion.div key={project.id} variants={fadeInUp}>
-                      <Card
-                        className={`${themeClasses.card} ${
-                          themeClasses.cardHover
-                        } backdrop-blur-xl transition-all duration-500 group h-full hover:shadow-2xl ${
-                          theme === "light"
-                            ? "hover:shadow-gray-200/20 hover:border-gray-400/30"
-                            : "hover:shadow-white/5 hover:border-gray-600/30"
-                        } hover:scale-[1.02] rounded-2xl overflow-hidden`}
-                      >
-                        {/* Project Image */}
-                        {project.image && (
-                          <div
-                            className={`w-full h-48 ${
-                              theme === "light"
-                                ? "bg-gray-200/40"
-                                : "bg-gray-900/40"
-                            } flex items-center justify-center overflow-hidden`}
-                          >
-                            <img
-                              src={project.image || "/placeholder.svg"}
-                              alt={project.title}
-                              className="w-full h-full object-cover"
-                              onError={(e) => {
-                                const target = e.target as HTMLImageElement;
-                                target.src = "/images/placeholder.svg";
-                                target.onerror = null;
-                              }}
-                            />
-                          </div>
-                        )}
-                        <CardHeader className="p-4 sm:p-6">
-                          <div className="flex justify-between items-start mb-3 sm:mb-4">
-                            <CardTitle
-                              className={`${themeClasses.text} group-hover:${
-                                theme === "light"
-                                  ? "text-teal-600"
-                                  : "text-teal-300"
-                              } transition-colors duration-300 text-base sm:text-lg leading-tight pr-2`}
-                            >
-                              {project.title}
-                            </CardTitle>
-                            <Badge
-                              className={`${
-                                project.status === "Completed"
-                                  ? `${
-                                      theme === "light"
-                                        ? "bg-green-400/20 text-green-700 border-green-400/30"
-                                        : "bg-green-500/20 text-green-300 border-green-500/30"
-                                    }`
-                                  : project.status === "Live"
-                                  ? `${
-                                      theme === "light"
-                                        ? "bg-teal-400/20 text-teal-700 border-teal-400/30"
-                                        : "bg-teal-500/20 text-teal-300 border-teal-500/30"
-                                    }`
-                                  : project.status === "Award Winner"
-                                  ? `${
-                                      theme === "light"
-                                        ? "bg-yellow-400/20 text-yellow-700 border-yellow-400/30"
-                                        : "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
-                                    }`
-                                  : `${
-                                      theme === "light"
-                                        ? "bg-blue-400/20 text-blue-700 border-blue-400/30"
-                                        : "bg-blue-500/20 text-blue-300 border-blue-500/30"
-                                    }`
-                              } backdrop-blur-sm text-xs whitespace-nowrap rounded-full px-3 py-1`}
-                            >
-                              {project.status}
-                            </Badge>
-                          </div>
-                          <CardDescription
-                            className={`${themeClasses.textSecondary} leading-relaxed text-sm sm:text-base`}
-                          >
-                            {project.description}
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="p-4 sm:p-6 pt-0">
-                          <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 sm:mb-6">
-                            {project.technologies.map((tech: string) => (
+                                {project.title}
+                              </CardTitle>
                               <Badge
-                                key={tech}
-                                variant="outline"
                                 className={`${
-                                  theme === "light"
-                                    ? "border-gray-400/40 text-gray-600 bg-gray-100/30 hover:bg-teal-500/20 hover:border-teal-400/50 hover:text-teal-700"
-                                    : "border-gray-600/40 text-gray-400 bg-gray-800/30 hover:bg-teal-600/20 hover:border-teal-500/50 hover:text-teal-300"
-                                } backdrop-blur-sm text-xs transition-all duration-300 rounded-full px-2 py-1`}
+                                  project.status === "Completed"
+                                    ? `${
+                                        theme === "light"
+                                          ? "bg-green-400/20 text-green-700 border-green-400/30"
+                                          : "bg-green-500/20 text-green-300 border-green-500/30"
+                                      }`
+                                    : project.status === "Live"
+                                    ? `${
+                                        theme === "light"
+                                          ? "bg-teal-400/20 text-teal-700 border-teal-400/30"
+                                          : "bg-teal-500/20 text-teal-300 border-teal-500/30"
+                                      }`
+                                    : `${
+                                        theme === "light"
+                                          ? "bg-blue-400/20 text-blue-700 border-blue-400/30"
+                                          : "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                                      }`
+                                } backdrop-blur-sm text-[10px] sm:text-xs whitespace-nowrap rounded-full px-1.5 sm:px-2 py-0.5 flex-shrink-0`}
                               >
-                                {tech}
+                                {project.status}
                               </Badge>
-                            ))}
-                          </div>
-                          <div className="flex flex-wrap gap-3 sm:gap-4">
-                            {project.links.map((link: any, idx: number) => (
-                              <Button
-                                key={idx}
-                                size="sm"
-                                variant="ghost"
-                                className={`${themeClasses.textMuted} hover:${
+                            </div>
+                            <CardDescription
+                              className={`${themeClasses.textSecondary} leading-relaxed text-xs sm:text-sm line-clamp-3`}
+                            >
+                              {project.description}
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="p-3 sm:p-4 pt-0">
+                            <div className="flex flex-wrap gap-1.5 mb-3">
+                              {project.technologies.slice(0, 3).map((tech: string) => (
+                                <Badge
+                                  key={tech}
+                                  variant="outline"
+                                  className={`${
+                                    theme === "light"
+                                      ? "border-gray-400/40 text-gray-600 bg-gray-100/30"
+                                      : "border-gray-600/40 text-gray-400 bg-gray-800/30"
+                                  } backdrop-blur-sm text-[10px] sm:text-xs transition-all duration-300 rounded-full px-2 py-0.5`}
+                                >
+                                  {tech}
+                                </Badge>
+                              ))}
+                              {project.technologies.length > 3 && (
+                                <Badge
+                                  variant="outline"
+                                  className={`${
+                                    theme === "light"
+                                      ? "border-gray-400/40 text-gray-600 bg-gray-100/30"
+                                      : "border-gray-600/40 text-gray-400 bg-gray-800/30"
+                                  } backdrop-blur-sm text-[10px] sm:text-xs rounded-full px-2 py-0.5`}
+                                >
+                                  +{project.technologies.length - 3}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex gap-3">
+                              {project.links.map((link: any, idx: number) => (
+                                <Button
+                                  key={idx}
+                                  size="sm"
+                                  variant="ghost"
+                                  className={`${themeClasses.textMuted} hover:${
+                                    theme === "light"
+                                      ? "text-teal-600"
+                                      : "text-teal-400"
+                                  } p-0 h-auto group/btn text-xs sm:text-sm`}
+                                  onClick={() => window.open(link.url, "_blank")}
+                                >
+                                  {link.icon && (
+                                    <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 group-hover/btn:scale-110 transition-transform duration-200" />
+                                  )}
+                                  {link.type}
+                                </Button>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                    {/* Render dynamic projects */}
+                    {projects.map((project, index) => (
+                      <motion.div key={project.id} variants={fadeInUp}>
+                        <Card
+                          className={`${themeClasses.card} ${
+                            themeClasses.cardHover
+                          } backdrop-blur-xl transition-all duration-500 group h-full hover:shadow-xl ${
+                            theme === "light"
+                              ? "hover:shadow-gray-200/20 hover:border-gray-400/30"
+                              : "hover:shadow-white/5 hover:border-gray-600/30"
+                          } hover:scale-[1.02] rounded-xl overflow-hidden`}
+                        >
+                          {/* Project Image */}
+                          {project.image && (
+                            <div
+                              className={`w-full h-32 sm:h-36 lg:h-40 ${
+                                theme === "light"
+                                  ? "bg-gray-200/40"
+                                  : "bg-gray-900/40"
+                              } flex items-center justify-center overflow-hidden`}
+                            >
+                              <img
+                                src={project.image || "/placeholder.svg"}
+                                alt={project.title}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                onError={(e) => {
+                                  const target = e.target as HTMLImageElement;
+                                  target.src = "/images/placeholder.svg";
+                                  target.onerror = null;
+                                }}
+                              />
+                            </div>
+                          )}
+                          <CardHeader className="p-3 sm:p-4">
+                            <div className="flex justify-between items-start mb-2">
+                              <CardTitle
+                                className={`${themeClasses.text} group-hover:${
                                   theme === "light"
                                     ? "text-teal-600"
-                                    : "text-teal-400"
-                                } p-0 h-auto group/btn text-xs sm:text-sm`}
-                                onClick={() => window.open(link.url, "_blank")}
+                                    : "text-teal-300"
+                                } transition-colors duration-300 text-sm sm:text-base lg:text-lg leading-tight pr-1 line-clamp-1`}
                               >
-                                {link.icon && (
-                                  <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 sm:mr-2 group-hover/btn:scale-110 transition-transform duration-200" />
-                                )}
-                                {link.type}
-                              </Button>
-                            ))}
-                          </div>
-                        </CardContent>
-                      </Card>
-                    </motion.div>
-                  ))}
+                                {project.title}
+                              </CardTitle>
+                              <Badge
+                                className={`${
+                                  project.status === "Completed"
+                                    ? `${
+                                        theme === "light"
+                                          ? "bg-green-400/20 text-green-700 border-green-400/30"
+                                          : "bg-green-500/20 text-green-300 border-green-500/30"
+                                      }`
+                                    : project.status === "Live"
+                                    ? `${
+                                        theme === "light"
+                                          ? "bg-teal-400/20 text-teal-700 border-teal-400/30"
+                                          : "bg-teal-500/20 text-teal-300 border-teal-500/30"
+                                      }`
+                                    : project.status === "Award Winner"
+                                    ? `${
+                                        theme === "light"
+                                          ? "bg-yellow-400/20 text-yellow-700 border-yellow-400/30"
+                                          : "bg-yellow-500/20 text-yellow-300 border-yellow-500/30"
+                                      }`
+                                    : `${
+                                        theme === "light"
+                                          ? "bg-blue-400/20 text-blue-700 border-blue-400/30"
+                                          : "bg-blue-500/20 text-blue-300 border-blue-500/30"
+                                      }`
+                                } backdrop-blur-sm text-[10px] sm:text-xs whitespace-nowrap rounded-full px-1.5 sm:px-2 py-0.5 flex-shrink-0`}
+                              >
+                                {project.status}
+                              </Badge>
+                            </div>
+                            <CardDescription
+                              className={`${themeClasses.textSecondary} leading-relaxed text-xs sm:text-sm line-clamp-3`}
+                            >
+                              {project.description}
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="p-3 sm:p-4 pt-0">
+                            <div className="flex flex-wrap gap-1.5 mb-3">
+                              {project.technologies.slice(0, 3).map((tech: string) => (
+                                <Badge
+                                  key={tech}
+                                  variant="outline"
+                                  className={`${
+                                    theme === "light"
+                                      ? "border-gray-400/40 text-gray-600 bg-gray-100/30"
+                                      : "border-gray-600/40 text-gray-400 bg-gray-800/30"
+                                  } backdrop-blur-sm text-[10px] sm:text-xs transition-all duration-300 rounded-full px-2 py-0.5`}
+                                >
+                                  {tech}
+                                </Badge>
+                              ))}
+                              {project.technologies.length > 3 && (
+                                <Badge
+                                  variant="outline"
+                                  className={`${
+                                    theme === "light"
+                                      ? "border-gray-400/40 text-gray-600 bg-gray-100/30"
+                                      : "border-gray-600/40 text-gray-400 bg-gray-800/30"
+                                  } backdrop-blur-sm text-[10px] sm:text-xs rounded-full px-2 py-0.5`}
+                                >
+                                  +{project.technologies.length - 3}
+                                </Badge>
+                              )}
+                            </div>
+                            <div className="flex gap-3">
+                              {project.links.map((link: any, idx: number) => (
+                                <Button
+                                  key={idx}
+                                  size="sm"
+                                  variant="ghost"
+                                  className={`${themeClasses.textMuted} hover:${
+                                    theme === "light"
+                                      ? "text-teal-600"
+                                      : "text-teal-400"
+                                  } p-0 h-auto group/btn text-xs sm:text-sm`}
+                                  onClick={() => window.open(link.url, "_blank")}
+                                >
+                                  {link.icon && (
+                                    <link.icon className="w-3 h-3 sm:w-4 sm:h-4 mr-1.5 group-hover/btn:scale-110 transition-transform duration-200" />
+                                  )}
+                                  {link.type}
+                                </Button>
+                              ))}
+                            </div>
+                          </CardContent>
+                        </Card>
+                      </motion.div>
+                    ))}
+                  </div>
                 </div>
               )}
             </motion.div>
@@ -2169,7 +2179,7 @@ function PortfolioContent() {
                           viewport={{ once: true }}
                         >
                           <span
-                            className={`text-xs sm:text-sm ${
+                            className={`text-xs ${
                               theme === "light"
                                 ? "text-teal-600"
                                 : "text-teal-200"
@@ -2272,9 +2282,7 @@ function PortfolioContent() {
                                     theme === "light"
                                       ? "border-gray-400/30"
                                       : "border-gray-600/30"
-                                  } backdrop-blur-sm shadow-lg font-semibold text-xs px-2 py-1 ${
-                                    themeClasses.cardHover
-                                  } transition-all duration-300`}
+                                  } backdrop-blur-sm shadow-lg font-semibold text-xs px-2 py-1`}
                                 >
                                   {edu.grade}
                                 </Badge>
