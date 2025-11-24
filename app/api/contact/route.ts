@@ -1,7 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// Handle CORS preflight
+export async function OPTIONS(request: NextRequest) {
+  return new NextResponse(null, {
+    status: 200,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    },
+  });
+}
+
 export async function POST(request: NextRequest) {
+  // Add CORS headers
+  const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+
   try {
     console.log('🔷 Next.js API Route /api/contact called');
     const body = await request.json();
@@ -13,7 +32,7 @@ export async function POST(request: NextRequest) {
       console.log('❌ Validation failed - missing required fields');
       return NextResponse.json(
         { success: false, message: 'Missing required fields' },
-        { status: 400 }
+        { status: 400, headers }
       );
     }
 
@@ -52,16 +71,16 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Contact form submitted successfully',
       messageId: info.messageId,
-    });
+    }, { headers });
   } catch (error) {
-    console.error('Contact form error:', error);
+    console.error('❌ Contact form error:', error);
     return NextResponse.json(
       {
         success: false,
         message: 'Internal server error',
         error: error instanceof Error ? error.message : 'Unknown error',
       },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 }
