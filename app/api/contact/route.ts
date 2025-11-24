@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import nodemailer from 'nodemailer';
 
 export async function POST(request: NextRequest) {
   try {
@@ -16,33 +17,41 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Use Vercel API route if deployed, otherwise local backend
-    const backendUrl = process.env.VERCEL_URL 
-      ? `https://${process.env.VERCEL_URL}/api/contact`
-      : process.env.BACKEND_URL || 'http://localhost:5000/api/contact';
+    // Send email directly using Nodemailer
+    console.log('✉️ Preparing to send email...');
     
-    console.log(`🔗 Calling backend at: ${backendUrl}`);
-    const response = await fetch(backendUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
+    const transporter = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+      port: parseInt(process.env.EMAIL_PORT || '587'),
+      secure: false,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASSWORD,
       },
-      body: JSON.stringify({ name, email, message, subject }),
     });
-    console.log(`📡 Backend response status: ${response.status}`);
 
-    const data = await response.json();
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: 'santosh07entrepreneur@gmail.com',
+      subject: subject || `New Contact Form Submission from ${name}`,
+      html: `
+        <h2>New Contact Form Submission</h2>
+        <p><strong>Name:</strong> ${name}</p>
+        <p><strong>Email:</strong> ${email}</p>
+        <p><strong>Message:</strong></p>
+        <p>${message}</p>
+      `,
+      replyTo: email,
+    };
 
-    if (!response.ok) {
-      return NextResponse.json(
-        { success: false, message: data.message || 'Failed to send message' },
-        { status: response.status }
-      );
-    }
+    console.log('📤 Sending email to: santosh07entrepreneur@gmail.com');
+    const info = await transporter.sendMail(mailOptions);
+    console.log('✅ Email sent successfully! Message ID:', info.messageId);
 
     return NextResponse.json({
       success: true,
-      message: 'Message sent successfully',
+      message: 'Contact form submitted successfully',
+      messageId: info.messageId,
     });
   } catch (error) {
     console.error('Contact form error:', error);
