@@ -16,10 +16,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Call Express backend
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
-    console.log(`🔗 Calling backend at: ${backendUrl}/api/contact`);
-    const response = await fetch(`${backendUrl}/api/contact`, {
+    // Use Vercel API route if deployed, otherwise local backend
+    const backendUrl = process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}/api/contact`
+      : process.env.BACKEND_URL || 'http://localhost:5000/api/contact';
+    
+    console.log(`🔗 Calling backend at: ${backendUrl}`);
+    const response = await fetch(backendUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
