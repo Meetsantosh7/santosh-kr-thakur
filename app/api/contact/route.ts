@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 
+// Force dynamic rendering
+export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
+
 // Handle CORS preflight
 export async function OPTIONS(request: NextRequest) {
   return new NextResponse(null, {
@@ -38,6 +42,24 @@ export async function POST(request: NextRequest) {
 
     // Send email directly using Nodemailer
     console.log('✉️ Preparing to send email...');
+    console.log('📧 Email config:', {
+      host: process.env.EMAIL_HOST || 'smtp.gmail.com',
+      port: process.env.EMAIL_PORT || '587',
+      user: process.env.EMAIL_USER ? '***configured***' : 'MISSING',
+      pass: process.env.EMAIL_PASSWORD ? '***configured***' : 'MISSING',
+    });
+    
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASSWORD) {
+      console.error('❌ EMAIL_USER or EMAIL_PASSWORD not set in environment variables!');
+      return NextResponse.json(
+        { 
+          success: false, 
+          message: 'Email service not configured. Please contact administrator.',
+          error: 'Missing EMAIL_USER or EMAIL_PASSWORD environment variables'
+        },
+        { status: 500, headers }
+      );
+    }
     
     const transporter = nodemailer.createTransport({
       host: process.env.EMAIL_HOST || 'smtp.gmail.com',
