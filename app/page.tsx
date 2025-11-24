@@ -499,8 +499,9 @@ function PortfolioContent() {
 
       // Send email notification via backend
       try {
-        console.log('🚀 Sending email notification...');
-        const emailResponse = await fetch('/api/contact', {
+        const apiUrl = `${window.location.origin}/api/contact`;
+        console.log('🚀 Sending email notification to:', apiUrl);
+        const emailResponse = await fetch(apiUrl, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -512,6 +513,7 @@ function PortfolioContent() {
             subject: `New Contact Form Submission from ${formData.name.trim()}`,
           }),
         });
+        console.log('📡 Response status:', emailResponse.status, 'URL was:', apiUrl);
 
         const emailData = await emailResponse.json();
         console.log('📧 Email response:', emailData);
@@ -522,7 +524,8 @@ function PortfolioContent() {
         }
       } catch (emailError) {
         console.error('❌ Error sending email notification:', emailError);
-        // Don't fail the whole form submission if email fails
+        // Show warning but don't fail the whole form
+        alert('Form saved but email notification failed. Please check console.');
       }
 
       // Reset form and show success message
