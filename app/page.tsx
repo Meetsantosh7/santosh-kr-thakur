@@ -497,6 +497,34 @@ function PortfolioContent() {
         createdAt: new Date().toISOString(),
       });
 
+      // Send email notification via backend
+      try {
+        console.log('🚀 Sending email notification...');
+        const emailResponse = await fetch('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name.trim(),
+            email: formData.email.trim(),
+            message: formData.message.trim(),
+            subject: `New Contact Form Submission from ${formData.name.trim()}`,
+          }),
+        });
+
+        const emailData = await emailResponse.json();
+        console.log('📧 Email response:', emailData);
+        if (!emailData.success) {
+          console.warn('⚠️ Email notification failed:', emailData.message);
+        } else {
+          console.log('✅ Email sent successfully!');
+        }
+      } catch (emailError) {
+        console.error('❌ Error sending email notification:', emailError);
+        // Don't fail the whole form submission if email fails
+      }
+
       // Reset form and show success message
       setFormData({
         name: "",
